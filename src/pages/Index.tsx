@@ -156,7 +156,7 @@ const Index = () => {
             <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
               <div className="mb-6">
                 <img 
-                  src="https://cdn.poehali.dev/files/7d71b235-5bdc-4812-b6df-52077b946bf5.jpg" 
+                  src="https://cdn.poehali.dev/files/5c9882b2-94ee-45b9-98c6-9d6248af9ff5.jpg" 
                   alt="Осетр"
                   className="w-full h-64 object-cover rounded-2xl mb-6"
                 />
@@ -190,7 +190,7 @@ const Index = () => {
             <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
               <div className="mb-6">
                 <img 
-                  src="https://cdn.poehali.dev/projects/9f359434-86ab-480f-a0e5-43c6b85ff555/files/7b18ccfe-8460-43d0-94f4-49d9c7fe4270.jpg" 
+                  src="https://cdn.poehali.dev/files/744b84a2-053d-4886-894e-0629e64d0a4c.jpg" 
                   alt="Осетр копченый"
                   className="w-full h-64 object-cover rounded-2xl mb-6"
                 />
