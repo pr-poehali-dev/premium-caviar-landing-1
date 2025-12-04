@@ -90,9 +90,7 @@ const Index = () => {
         
         <div className="container mx-auto max-w-6xl relative z-10 animate-fade-in">
           <div className="text-center mb-12">
-            <h1 className="text-6xl md:text-8xl font-bold mb-6 text-primary">
-              ЭКОФИШ +
-            </h1>
+            <h1 className="text-6xl md:text-8xl font-bold mb-6 text-primary">ЭКОФИШ+</h1>
             <h2 className="text-4xl md:text-6xl font-semibold mb-6 text-foreground">
               Икра и рыба достойная момента
             </h2>
