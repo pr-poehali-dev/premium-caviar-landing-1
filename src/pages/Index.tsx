@@ -81,7 +81,7 @@ const Index = () => {
         <div 
           className="absolute inset-0 z-0"
           style={{
-            backgroundImage: `url('https://cdn.poehali.dev/projects/9f359434-86ab-480f-a0e5-43c6b85ff555/files/49a83e34-0549-4811-999f-81590a96e8b2.jpg')`,
+            backgroundImage: `url('https://cdn.poehali.dev/files/9575a1b8-bdfd-49d4-9b7d-87fb792715af.jpeg')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             filter: 'brightness(0.3)'
@@ -125,7 +125,7 @@ const Index = () => {
             <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
               <div className="mb-6">
                 <img 
-                  src="https://cdn.poehali.dev/projects/9f359434-86ab-480f-a0e5-43c6b85ff555/files/49a83e34-0549-4811-999f-81590a96e8b2.jpg" 
+                  src="https://cdn.poehali.dev/files/9575a1b8-bdfd-49d4-9b7d-87fb792715af.jpeg" 
                   alt="Черная икра"
                   className="w-full h-64 object-cover rounded-2xl mb-6"
                 />
@@ -156,7 +156,7 @@ const Index = () => {
             <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
               <div className="mb-6">
                 <img 
-                  src="https://cdn.poehali.dev/projects/9f359434-86ab-480f-a0e5-43c6b85ff555/files/1288f3ad-bcdd-4d70-bfe2-c05b4a4afa6b.jpg" 
+                  src="https://cdn.poehali.dev/files/d2e1514c-9589-4848-8b31-de238e189675.jpeg" 
                   alt="Осетр"
                   className="w-full h-64 object-cover rounded-2xl mb-6"
                 />
