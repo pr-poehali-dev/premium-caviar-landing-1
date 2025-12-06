@@ -234,9 +234,7 @@ const Index = () => {
 
       <section className="py-20 px-4 bg-background">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-5xl md:text-6xl font-bold text-center mb-16 text-primary">
-            Всего 3 шага до идеальной икры
-          </h2>
+          <h2 className="text-5xl md:text-6xl font-bold text-center mb-16 text-primary">Всего 3 шага:</h2>
           
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="p-8 rounded-3xl bg-card text-center hover:scale-105 transition-transform duration-300">
