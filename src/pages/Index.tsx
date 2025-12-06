@@ -269,9 +269,7 @@ const Index = () => {
           <h2 className="text-5xl md:text-6xl font-bold mb-6 text-primary">
             Превратите ваш вечер в событие
           </h2>
-          <p className="text-xl md:text-2xl mb-12 text-muted-foreground">
-            Закажите икру прямо сейчас и получите бесплатную доставку по Москве
-          </p>
+          <p className="text-xl md:text-2xl mb-12 text-muted-foreground">Закажите икру или рыбу прямо сейчас и получите бесплатную доставку по Москве</p>
 
           <Card className="p-8 rounded-3xl bg-secondary border-2 border-primary">
             <form onSubmit={handleSubmit} className="space-y-6">
