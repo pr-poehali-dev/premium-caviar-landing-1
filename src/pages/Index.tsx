@@ -152,7 +152,7 @@ const Index = () => {
             <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
               <div className="mb-6">
                 <img 
-                  src="https://cdn.poehali.dev/files/3ca82909-641c-4602-bfb2-6fe536bb5c92.jpg" 
+                  src="https://cdn.poehali.dev/files/осетр%20свежий.jpg" 
                   alt="Осетр"
                   className="w-full h-64 object-cover rounded-2xl mb-6"
                 />
