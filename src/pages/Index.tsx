@@ -90,6 +90,11 @@ const Index = () => {
         
         <div className="container mx-auto max-w-6xl relative z-10 animate-fade-in">
           <div className="text-center mb-12">
+            <img 
+              src="https://cdn.poehali.dev/files/логгго.jpg" 
+              alt="ЭкоФиш+ логотип"
+              className="w-full max-w-2xl mx-auto mb-8"
+            />
             <h1 className="text-6xl md:text-8xl font-bold mb-6 text-primary">ЭКОФИШ+</h1>
             <h2 className="text-4xl md:text-6xl font-semibold mb-6 text-foreground">Премиальная икра и рыба для особых моментов.</h2>
             <p className="text-xl md:text-2xl mb-12 text-muted-foreground max-w-3xl mx-auto">
