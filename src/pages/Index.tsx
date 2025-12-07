@@ -88,12 +88,6 @@ const Index = () => {
           }}
         />
         
-        <img 
-          src="https://cdn.poehali.dev/files/dc1801ac-df29-42ec-b587-d0c701fab915.jpg"
-          alt="ЭкоФиш+ Логотип"
-          className="absolute top-6 left-6 w-40 md:w-56 z-10 drop-shadow-2xl"
-        />
-        
         <div className="container mx-auto max-w-6xl relative z-10 animate-fade-in">
           <div className="text-center mb-12">
             <h1 className="text-6xl md:text-8xl font-bold mb-6 text-primary">ЭКОФИШ+</h1>
