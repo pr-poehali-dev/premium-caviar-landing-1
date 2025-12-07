@@ -88,10 +88,18 @@ const Index = () => {
           }}
         />
         
+        <img 
+          src="https://cdn.poehali.dev/files/dc1801ac-df29-42ec-b587-d0c701fab915.jpg"
+          alt="ЭкоФиш+ Логотип"
+          className="absolute top-6 left-6 w-40 md:w-56 z-10 drop-shadow-2xl"
+        />
+        
         <div className="container mx-auto max-w-6xl relative z-10 animate-fade-in">
           <div className="text-center mb-12">
             <h1 className="text-6xl md:text-8xl font-bold mb-6 text-primary">ЭКОФИШ+</h1>
-            <h2 className="text-4xl md:text-6xl font-semibold mb-6 text-foreground">Премиальная икра и рыба для особых моментов.</h2>
+            <h2 className="text-4xl md:text-6xl font-semibold mb-6 text-foreground">
+              Икра и рыба достойная момента
+            </h2>
             <p className="text-xl md:text-2xl mb-12 text-muted-foreground max-w-3xl mx-auto">
               Премиальная икра с бережной доставкой до вашего стола. Осётр и Стерлядь. 
               Идеально для праздника, ужина или особого подарка.
@@ -152,7 +160,7 @@ const Index = () => {
             <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
               <div className="mb-6">
                 <img 
-                  src="https://cdn.poehali.dev/files/осетр%20свежий.jpg" 
+                  src="https://cdn.poehali.dev/files/3ca82909-641c-4602-bfb2-6fe536bb5c92.jpg" 
                   alt="Осетр"
                   className="w-full h-64 object-cover rounded-2xl mb-6"
                 />
@@ -232,7 +240,9 @@ const Index = () => {
 
       <section className="py-20 px-4 bg-background">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-5xl md:text-6xl font-bold text-center mb-16 text-primary">Всего 3 шага:</h2>
+          <h2 className="text-5xl md:text-6xl font-bold text-center mb-16 text-primary">
+            Всего 3 шага до идеальной икры
+          </h2>
           
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="p-8 rounded-3xl bg-card text-center hover:scale-105 transition-transform duration-300">
@@ -267,7 +277,9 @@ const Index = () => {
           <h2 className="text-5xl md:text-6xl font-bold mb-6 text-primary">
             Превратите ваш вечер в событие
           </h2>
-          <p className="text-xl md:text-2xl mb-12 text-muted-foreground">Закажите икру или рыбу прямо сейчас и получите бесплатную доставку по Москве</p>
+          <p className="text-xl md:text-2xl mb-12 text-muted-foreground">
+            Закажите икру прямо сейчас и получите бесплатную доставку по Москве
+          </p>
 
           <Card className="p-8 rounded-3xl bg-secondary border-2 border-primary">
             <form onSubmit={handleSubmit} className="space-y-6">
