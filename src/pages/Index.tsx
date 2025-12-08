@@ -91,7 +91,7 @@ const Index = () => {
         <div className="container mx-auto max-w-6xl relative z-10 animate-fade-in">
           <div className="text-center mb-12">
             <img 
-              src="https://cdn.poehali.dev/files/log.png" 
+              src="https://cdn.poehali.dev/files/логгго.jpg" 
               alt="ЭкоФиш+ логотип"
               className="w-full max-w-2xl mx-auto mb-8"
             />
