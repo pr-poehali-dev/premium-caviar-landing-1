@@ -93,7 +93,7 @@ const Index = () => {
             <img 
               src="https://cdn.poehali.dev/files/16666.png" 
               alt="ЭкоФиш+ логотип"
-              className="w-full max-w-3xl mx-auto mb-8"
+              className="w-full max-w-[52rem] mx-auto mb-8"
             />
             <h2 className="text-4xl md:text-6xl font-semibold mb-6 text-foreground">Премиальная икра и рыба для особых моментов.</h2>
             <p className="text-xl md:text-2xl mb-12 text-muted-foreground max-w-3xl mx-auto">
