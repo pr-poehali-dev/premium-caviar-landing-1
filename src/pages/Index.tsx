@@ -125,34 +125,46 @@ const Index = () => {
             <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
               <div className="mb-6">
                 <img 
-                  src="https://cdn.poehali.dev/files/9575a1b8-bdfd-49d4-9b7d-87fb792715af.jpeg" 
-                  alt="Черная икра"
+                  src="https://cdn.poehali.dev/files/5314803716072344646.jpg" 
+                  alt="Икра осетра"
                   className="w-full h-64 object-cover rounded-2xl mb-6"
                 />
                 <h3 className="text-3xl font-bold mb-4 text-primary">
-                  Икра черная, зернистая, малосольная
+                  Икра осетра
                 </h3>
-                <p className="text-sm text-muted-foreground mb-4">* без консервантов. Икра упакована в железные банки под резинкой по 125 и 250 грамм. Без дополнительной пастеризации. </p>
+                <p className="text-sm text-muted-foreground mb-4">Черная зернистая малосольная икра без консервантов. Упакована в железные банки под резинкой по 125 и 250 грамм. Без дополнительной пастеризации.</p>
               </div>
               
-              <div className="space-y-6">
-                <div className="bg-accent/10 p-6 rounded-2xl border-2 border-accent">
-                  <p className="text-2xl font-bold text-accent mb-2">🎉 АКЦИЯ!</p>
-                  <p className="text-xl font-semibold text-foreground mb-3">Икра стерляди</p>
-                  <div className="space-y-2 text-foreground">
-                    <p>• При покупке менее 1 кг: <span className="font-bold text-accent">44 000₽/кг</span> <span className="line-through text-muted-foreground">48 000₽</span></p>
-                    <p>• При покупке более 1 кг: <span className="font-bold text-accent">42 000₽/кг</span> <span className="line-through text-muted-foreground">48 000₽</span></p>
-                    <p>• При покупке более 3 кг: <span className="font-bold text-accent">40 000₽/кг</span> <span className="line-through text-muted-foreground">48 000₽</span></p>
-                  </div>
-                </div>
-                
-                <div className="bg-muted p-6 rounded-2xl">
-                  <p className="text-xl font-semibold text-foreground mb-3">Икра осетра</p>
-                  <p className="text-2xl font-bold text-primary">56 000₽/кг</p>
-                </div>
+              <div className="bg-muted p-6 rounded-2xl">
+                <p className="text-2xl font-bold text-primary">56 000₽/кг</p>
               </div>
             </Card>
 
+            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
+              <div className="mb-6">
+                <img 
+                  src="https://cdn.poehali.dev/files/5314803716072344646.jpg" 
+                  alt="Икра стерляди"
+                  className="w-full h-64 object-cover rounded-2xl mb-6"
+                />
+                <h3 className="text-3xl font-bold mb-4 text-primary">
+                  Икра стерляди
+                </h3>
+                <p className="text-sm text-muted-foreground mb-4">Черная зернистая малосольная икра без консервантов. Упакована в железные банки под резинкой по 125 и 250 грамм. Без дополнительной пастеризации.</p>
+              </div>
+              
+              <div className="bg-accent/10 p-6 rounded-2xl border-2 border-accent">
+                <p className="text-2xl font-bold text-accent mb-4">🎉 АКЦИЯ!</p>
+                <div className="space-y-2 text-foreground">
+                  <p>• При покупке менее 1 кг: <span className="font-bold text-accent">44 000₽/кг</span> <span className="line-through text-muted-foreground">48 000₽</span></p>
+                  <p>• При покупке более 1 кг: <span className="font-bold text-accent">42 000₽/кг</span> <span className="line-through text-muted-foreground">48 000₽</span></p>
+                  <p>• При покупке более 3 кг: <span className="font-bold text-accent">40 000₽/кг</span> <span className="line-through text-muted-foreground">48 000₽</span></p>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12 mb-16">
             <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
               <div className="mb-6">
                 <img 
@@ -163,7 +175,7 @@ const Index = () => {
                 <h3 className="text-3xl font-bold mb-4 text-primary">
                   Осетр речной
                 </h3>
-                <p className="text-sm text-muted-foreground mb-4">непотрошенный охлажденный или быстрозамороженный</p>
+                <p className="text-sm text-muted-foreground mb-4">Непотрошенный охлажденный или быстрозамороженный</p>
               </div>
               
               <div className="space-y-3 text-foreground">
@@ -174,14 +186,24 @@ const Index = () => {
                 <p>• 8-10 кг: <span className="font-bold text-accent">2 000₽/кг</span> <span className="line-through text-muted-foreground">2 150₽</span></p>
                 <p>• 10+ кг: <span className="font-bold text-primary">2 250₽/кг</span></p>
               </div>
+            </Card>
 
-              <div className="mt-6 pt-6 border-t border-border">
-                <h4 className="text-xl font-semibold text-foreground mb-3">Стерлядь речная</h4>
-                <p className="text-sm text-muted-foreground mb-3">охлажденная или быстрозамороженная</p>
-                <div className="space-y-2 text-foreground">
-                  <p>• До 1,5 кг: <span className="font-bold text-accent">1 500₽/кг</span> <span className="line-through text-muted-foreground">1 650₽</span></p>
-                  <p>• От 1,5 кг: <span className="font-bold text-primary">1 650₽/кг</span></p>
-                </div>
+            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
+              <div className="mb-6">
+                <img 
+                  src="https://cdn.poehali.dev/files/5314803716072344648.jpg" 
+                  alt="Стерлядь речная"
+                  className="w-full h-64 object-cover rounded-2xl mb-6"
+                />
+                <h3 className="text-3xl font-bold mb-4 text-primary">
+                  Стерлядь речная
+                </h3>
+                <p className="text-sm text-muted-foreground mb-4">Охлажденная или быстрозамороженная</p>
+              </div>
+              
+              <div className="space-y-2 text-foreground">
+                <p>• До 1,5 кг: <span className="font-bold text-accent">1 500₽/кг</span> <span className="line-through text-muted-foreground">1 650₽</span></p>
+                <p>• От 1,5 кг: <span className="font-bold text-primary">1 650₽/кг</span></p>
               </div>
             </Card>
           </div>
