@@ -248,9 +248,9 @@ const Index = () => {
                   <p className="text-xl font-bold text-primary mb-2">3 600₽/кг</p>
                   <p className="text-sm text-muted-foreground">2,5-3,5 кг/шт, потрошенный, с головой и хвостом</p>
                 </div>
-                <div className="bg-muted p-4 rounded-2xl">
-                  <p className="text-xl font-bold text-primary mb-2">3 950₽/кг</p>
-                  <p className="text-sm text-muted-foreground">2,2-3,3 кг/шт, потрошенный, без головы и хвоста</p>
+                <div className="bg-muted p-4 rounded-2xl my-3.5 py-0">
+                  <p className="font-bold text-primary mb-2 text-sm text-center">Красивая  подача на вашем столе! </p>
+                  <p className="text-sm text-muted-foreground"></p>
                 </div>
               </div>
             </Card>
