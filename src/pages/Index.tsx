@@ -208,6 +208,27 @@ const Index = () => {
             </Card>
           </div>
 
+          <div className="grid md:grid-cols-2 gap-12 mb-16">
+            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
+              <div className="mb-6">
+                <img 
+                  src="https://cdn.poehali.dev/files/бгбх.jpg" 
+                  alt="Осетр горячего копчения"
+                  className="w-full h-64 object-cover rounded-2xl mb-6"
+                />
+                <h3 className="text-3xl font-bold mb-4 text-primary">
+                  Осетр горячего копчения
+                </h3>
+                <p className="text-sm text-muted-foreground mb-4">На опилках (ветла + груша + ольха)</p>
+                <p className="text-sm text-muted-foreground mb-4">2,2-3,3 кг/шт, потрошенный, без головы и хвоста</p>
+              </div>
+              
+              <div className="bg-muted p-6 rounded-2xl">
+                <p className="text-2xl font-bold text-primary">3 950₽/кг</p>
+              </div>
+            </Card>
+          </div>
+
           <div className="grid md:grid-cols-2 gap-12">
             <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
               <div className="mb-6">
