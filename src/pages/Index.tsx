@@ -2,12 +2,15 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
+import { Link } from 'react-router-dom';
 
 const Index = () => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const [agreed, setAgreed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
@@ -37,6 +40,15 @@ const Index = () => {
       return;
     }
 
+    if (!agreed) {
+      toast({
+        title: 'Ошибка',
+        description: 'Пожалуйста, подтвердите согласие с условиями работы сайта',
+        variant: 'destructive'
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -57,6 +69,7 @@ const Index = () => {
         });
         setName('');
         setPhone('');
+        setAgreed(false);
       } else {
         toast({
           title: 'Ошибка',
@@ -340,10 +353,26 @@ const Index = () => {
                 />
               </div>
 
+              <div className="flex items-start gap-3 text-left">
+                <Checkbox
+                  id="privacy-agree"
+                  checked={agreed}
+                  onCheckedChange={(checked) => setAgreed(checked as boolean)}
+                  className="mt-1"
+                />
+                <label htmlFor="privacy-agree" className="text-sm text-muted-foreground cursor-pointer">
+                  Я согласен с{' '}
+                  <Link to="/privacy" className="text-primary hover:text-accent underline">
+                    условиями работы сайта
+                  </Link>
+                  {' '}и даю согласие на обработку моих персональных данных
+                </label>
+              </div>
+
               <Button
                 type="submit"
-                disabled={isSubmitting}
-                className="w-full text-xl py-6 rounded-2xl bg-primary hover:bg-accent text-background font-bold transition-all duration-300 hover:scale-105"
+                disabled={isSubmitting || !agreed}
+                className="w-full text-xl py-6 rounded-2xl bg-primary hover:bg-accent text-background font-bold transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? 'Отправка...' : 'Мы вам позвоним'}
               </Button>
