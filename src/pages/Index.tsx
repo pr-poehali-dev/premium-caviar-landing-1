@@ -134,7 +134,7 @@ const Index = () => {
             Наши продукты
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-12 mb-16">
+          <div className="grid md:grid-cols-2 gap-12">
             <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
               <div className="mb-6">
                 <img 
@@ -175,9 +175,7 @@ const Index = () => {
                 </div>
               </div>
             </Card>
-          </div>
 
-          <div className="grid md:grid-cols-2 gap-12 mb-16">
             <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
               <div className="mb-6">
                 <img 
@@ -219,9 +217,7 @@ const Index = () => {
                 <p>• От 1,5 кг: <span className="font-bold text-primary">1 650₽/кг</span></p>
               </div>
             </Card>
-          </div>
 
-          <div className="grid md:grid-cols-2 gap-12 mb-16">
             <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
               <div className="mb-6">
                 <img 
@@ -240,9 +236,7 @@ const Index = () => {
                 <p className="text-2xl font-bold text-primary">3 950₽/кг</p>
               </div>
             </Card>
-          </div>
 
-          <div className="grid md:grid-cols-2 gap-12">
             <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
               <div className="mb-6">
                 <img 
