@@ -1,4 +1,17 @@
+# robots.txt для ЭкоФИШ+
+
+User-agent: *
+Allow: /
+Disallow: /privacy
+
+# Основная карта сайта
+Sitemap: https://ekofish.poehali.app/sitemap.xml
+
+# Настройки для популярных поисковых ботов
 User-agent: Googlebot
+Allow: /
+
+User-agent: Yandex
 Allow: /
 
 User-agent: Bingbot
@@ -10,5 +23,12 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
-Allow: /
+# Ограничения для агрессивных краулеров
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: DotBot
+Crawl-delay: 10

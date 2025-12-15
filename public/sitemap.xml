@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Главная страница -->
+  <url>
+    <loc>https://ekofish.poehali.app/</loc>
+    <lastmod>2025-12-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://cdn.poehali.dev/files/d2e8c54f-396f-432a-a81b-2772b1d6842d.jpg</image:loc>
+      <image:title>ЭкоФИШ+ Премиальная икра и рыба</image:title>
+      <image:caption>Икра осетра и стерляди, свежая и копченая рыба</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://cdn.poehali.dev/files/5314803716072344646.jpg</image:loc>
+      <image:title>Икра осетра</image:title>
+      <image:caption>Черная зернистая малосольная икра без консервантов</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://cdn.poehali.dev/files/WhatsApp-Image-2023-11-24-at-22.38.04.jpeg</image:loc>
+      <image:title>Икра стерляди</image:title>
+      <image:caption>Черная зернистая малосольная икра без консервантов</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://cdn.poehali.dev/files/осетр%20свежий.jpg</image:loc>
+      <image:title>Осетр речной</image:title>
+      <image:caption>Непотрошенный охлажденный или быстрозамороженный</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://cdn.poehali.dev/files/5314803716072344648.jpg</image:loc>
+      <image:title>Стерлядь речная</image:title>
+      <image:caption>Охлажденная или быстрозамороженная</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://cdn.poehali.dev/files/бгбх.jpg</image:loc>
+      <image:title>Осетр горячего копчения</image:title>
+      <image:caption>На опилках (ветла + груша + ольха)</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://cdn.poehali.dev/files/1b8f68c0-aad2-4739-b844-9534565e018e.jpg</image:loc>
+      <image:title>Осетр горячего копчения с головой</image:title>
+      <image:caption>Потрошенный, с головой и хвостом</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://cdn.poehali.dev/files/9c0d4146-c300-40a2-b66e-91bd6a386faf.jpg</image:loc>
+      <image:title>Балык-книжка из осетра</image:title>
+      <image:caption>Холодного копчения на опилках шелковицы</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Страница политики конфиденциальности -->
+  <url>
+    <loc>https://ekofish.poehali.app/privacy</loc>
+    <lastmod>2025-12-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  
+</urlset>

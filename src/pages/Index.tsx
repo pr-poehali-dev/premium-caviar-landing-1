@@ -1,7 +1,93 @@
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import Icon from '@/components/ui/icon';
+import { useToast } from '@/hooks/use-toast';
+import { Link } from 'react-router-dom';
 
 const Index = () => {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [agreed, setAgreed] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const validatePhone = (phone: string) => {
+    const phoneRegex = /^(\+7|8)?[\s-]?\(?[0-9]{3}\)?[\s-]?[0-9]{3}[\s-]?[0-9]{2}[\s-]?[0-9]{2}$/;
+    return phoneRegex.test(phone.replace(/\s/g, ''));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!name.trim()) {
+      toast({
+        title: 'Ошибка',
+        description: 'Пожалуйста, введите ваше имя',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    if (!validatePhone(phone)) {
+      toast({
+        title: 'Ошибка',
+        description: 'Пожалуйста, введите корректный номер телефона',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    if (!agreed) {
+      toast({
+        title: 'Ошибка',
+        description: 'Пожалуйста, подтвердите согласие с условиями работы сайта',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('https://functions.poehali.dev/ee5f99f2-50ce-4388-9019-c03f40d677f6', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, phone })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast({
+          title: 'Успешно!',
+          description: data.message,
+        });
+        setName('');
+        setPhone('');
+        setAgreed(false);
+      } else {
+        toast({
+          title: 'Ошибка',
+          description: data.error || 'Что-то пошло не так',
+          variant: 'destructive'
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Ошибка',
+        description: 'Не удалось отправить заявку',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <section className="relative min-h-screen flex items-center justify-center px-4 py-20 overflow-hidden">
@@ -235,26 +321,56 @@ const Index = () => {
           <h2 className="text-5xl md:text-6xl font-bold mb-6 text-primary">
             Превратите ваш вечер в событие
           </h2>
-          <p className="text-xl md:text-2xl mb-12 text-muted-foreground">Позвоните нам прямо сейчас</p>
+          <p className="text-xl md:text-2xl mb-12 text-muted-foreground">Закажите икру или рыбу прямо сейчас.</p>
 
           <Card className="p-8 rounded-3xl bg-secondary border-2 border-primary">
-            <div className="space-y-6">
-              <a href="tel:89275731273" className="flex items-center justify-center gap-4 text-2xl text-primary hover:text-accent transition-colors p-6 bg-background rounded-2xl hover:scale-105 transform duration-300">
-                <Icon name="Phone" size={32} />
-                <div className="text-left">
-                  <div className="text-sm text-muted-foreground">Валерий</div>
-                  <div className="font-bold">8 927 573 12 73</div>
-                </div>
-              </a>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <Input
+                  type="text"
+                  placeholder="Ваше имя"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="text-lg p-6 rounded-2xl bg-background border-border focus:border-primary"
+                  required
+                />
+              </div>
               
-              <a href="tel:89275607919" className="flex items-center justify-center gap-4 text-2xl text-primary hover:text-accent transition-colors p-6 bg-background rounded-2xl hover:scale-105 transform duration-300">
-                <Icon name="Phone" size={32} />
-                <div className="text-left">
-                  <div className="text-sm text-muted-foreground">Любовь</div>
-                  <div className="font-bold">8 927 560 79 19</div>
-                </div>
-              </a>
-            </div>
+              <div>
+                <Input
+                  type="tel"
+                  placeholder="Ваш телефон (например, +7 999 123 45 67)"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="text-lg p-6 rounded-2xl bg-background border-border focus:border-primary"
+                  required
+                />
+              </div>
+
+              <div className="flex items-start gap-3 text-left">
+                <Checkbox
+                  id="privacy-agree"
+                  checked={agreed}
+                  onCheckedChange={(checked) => setAgreed(checked as boolean)}
+                  className="mt-1"
+                />
+                <label htmlFor="privacy-agree" className="text-sm text-muted-foreground cursor-pointer">
+                  Я согласен с{' '}
+                  <Link to="/privacy" className="text-primary hover:text-accent underline">
+                    условиями работы сайта
+                  </Link>
+                  {' '}и даю согласие на обработку моих персональных данных
+                </label>
+              </div>
+
+              <Button
+                type="submit"
+                disabled={isSubmitting || !agreed}
+                className="w-full text-xl py-6 rounded-2xl bg-primary hover:bg-accent text-background font-bold transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? 'Отправка...' : 'Мы вам позвоним'}
+              </Button>
+            </form>
           </Card>
         </div>
       </section>
