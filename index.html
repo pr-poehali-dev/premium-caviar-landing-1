@@ -8,12 +8,11 @@
     <meta name="author" content="ООО ЭКОФИШ+"/>
     <meta name="keywords" content="икра осетра, икра стерляди, черная икра, осетр, стерлядь, копченая рыба, балык"/>
     
-    <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
-    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-    <meta name="robots" content="index, follow">
+    <!-- Security & SEO -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="google" content="notranslate">
+    <link rel="alternate" hreflang="ru" href="https://ekofish.poehali.app">
     
     <link rel="icon" type="image/jpg" href="https://cdn.poehali.dev/projects/9f359434-86ab-480f-a0e5-43c6b85ff555/files/favicon-1765786284278.jpg">
     <link rel="canonical" href="https://ekofish.poehali.app">
@@ -37,19 +36,71 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
+      "@type": "FoodEstablishment",
       "name": "ООО ЭКОФИШ+",
       "url": "https://ekofish.poehali.app",
       "logo": "https://cdn.poehali.dev/projects/9f359434-86ab-480f-a0e5-43c6b85ff555/files/og-image-1764850804072.jpg",
-      "description": "Продажа премиальной черной икры осетра и стерляди, свежей и копченой рыбы",
-      "telephone": ["+7-927-573-12-73", "+7-927-560-79-19"],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+7-927-573-12-73",
-        "contactType": "Customer Service",
-        "areaServed": "RU",
-        "availableLanguage": "Russian"
-      }
+      "image": "https://cdn.poehali.dev/projects/9f359434-86ab-480f-a0e5-43c6b85ff555/files/og-image-1764850804072.jpg",
+      "description": "Продажа премиальной черной икры осетра и стерляди, свежей и копченой рыбы с доставкой. Качественная продукция без консервантов.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "RU",
+        "addressLocality": "Россия"
+      },
+      "telephone": "+7-927-573-12-73",
+      "priceRange": "₽₽₽",
+      "servesCuisine": "Seafood",
+      "hasMenu": {
+        "@type": "Menu",
+        "hasMenuSection": [
+          {
+            "@type": "MenuSection",
+            "name": "Икра",
+            "hasMenuItem": [
+              {
+                "@type": "MenuItem",
+                "name": "Икра осетра",
+                "description": "Черная зернистая малосольная икра без консервантов",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "56000",
+                  "priceCurrency": "RUB",
+                  "availability": "https://schema.org/InStock"
+                }
+              },
+              {
+                "@type": "MenuItem",
+                "name": "Икра стерляди",
+                "description": "Черная зернистая малосольная икра без консервантов",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "40000",
+                  "priceCurrency": "RUB",
+                  "availability": "https://schema.org/InStock"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+7-927-573-12-73",
+          "contactType": "Customer Service",
+          "areaServed": "RU",
+          "availableLanguage": ["Russian"],
+          "name": "Валерий"
+        },
+        {
+          "@type": "ContactPoint",
+          "telephone": "+7-927-560-79-19",
+          "contactType": "Customer Service",
+          "areaServed": "RU",
+          "availableLanguage": ["Russian"],
+          "name": "Любовь"
+        }
+      ]
     }
     </script>
 
