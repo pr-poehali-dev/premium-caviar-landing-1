@@ -27,7 +27,7 @@ const Privacy = () => {
             
             <div className="space-y-6 text-foreground">
               <p>
-                Соглашаясь с Условиями работы сайта (далее – Условия) и оставляя свои данные на сайте ecofish.shop (далее – Сайт), путем заполнения полей онлайн-заявки Пользователь:
+                Соглашаясь с Условиями работы сайта (далее – Условия) и оставляя свои данные на сайте ekofish.poehali.app (далее – Сайт), путем заполнения полей онлайн-заявки Пользователь:
               </p>
 
               <ul className="list-disc pl-6 space-y-2">
@@ -47,7 +47,7 @@ const Privacy = () => {
               </ul>
 
               <p>
-                Пользователь, предоставляет Сайту ecofish.shop право осуществлять следующие действия (операции) с пользовательскими данными:
+                Пользователь предоставляет Сайту ekofish.poehali.app право осуществлять следующие действия (операции) с пользовательскими данными:
               </p>
 
               <ul className="list-disc pl-6 space-y-2">
@@ -78,8 +78,8 @@ const Privacy = () => {
 
               <p>
                 Действующая редакция всегда находится на странице по адресу:{' '}
-                <a href="http://ecofish.shop/privacy/" className="text-primary hover:text-accent underline break-all">
-                  http://ecofish.shop/privacy/
+                <a href="https://ekofish.poehali.app/privacy" className="text-primary hover:text-accent underline break-all">
+                  https://ekofish.poehali.app/privacy
                 </a>
               </p>
             </div>
