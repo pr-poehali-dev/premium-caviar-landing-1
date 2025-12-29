@@ -6,13 +6,23 @@ import { Checkbox } from '@/components/ui/checkbox';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 import { Link } from 'react-router-dom';
+import ProductModal from '@/components/ProductModal';
+import { productDescriptions } from '@/data/products';
 
 const Index = () => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [agreed, setAgreed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<{ title: string; description: string; image: string } | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { toast } = useToast();
+
+  const handleProductClick = (title: string, image: string) => {
+    const description = productDescriptions[title] || 'Описание недоступно';
+    setSelectedProduct({ title, description, image });
+    setIsModalOpen(true);
+  };
 
   const validatePhone = (phone: string) => {
     const phoneRegex = /^(\+7|8)?[\s-]?\(?[0-9]{3}\)?[\s-]?[0-9]{3}[\s-]?[0-9]{2}[\s-]?[0-9]{2}$/;
@@ -114,15 +124,20 @@ const Index = () => {
               Идеально для праздника, ужина или особого подарка.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center text-lg">
-              <a href="tel:89275731273" className="flex items-center gap-3 text-primary hover:text-accent transition-colors">
-                <Icon name="Phone" size={24} />
-                <span className="font-semibold">Валерий: 8 927 573 12 73</span>
-              </a>
-              <a href="tel:89275607919" className="flex items-center gap-3 text-primary hover:text-accent transition-colors">
-                <Icon name="Phone" size={24} />
-                <span className="font-semibold">Любовь: 8 927 560 79 19</span>
-              </a>
+            <div className="flex flex-col gap-6 justify-center items-center text-lg">
+              <div className="flex flex-col sm:flex-row gap-6">
+                <a href="tel:89275731273" className="flex items-center gap-3 text-primary hover:text-accent transition-colors">
+                  <Icon name="Phone" size={24} />
+                  <span className="font-semibold">Валерий: 8 927 573 12 73</span>
+                </a>
+                <a href="tel:89275607919" className="flex items-center gap-3 text-primary hover:text-accent transition-colors">
+                  <Icon name="Phone" size={24} />
+                  <span className="font-semibold">Любовь: 8 927 560 79 19</span>
+                </a>
+              </div>
+              <Link to="/about" className="text-primary hover:text-accent transition-colors underline">
+                О нас
+              </Link>
             </div>
           </div>
         </div>
@@ -153,7 +168,7 @@ const Index = () => {
               </div>
             </Card>
 
-            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
+            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300 cursor-pointer" onClick={() => handleProductClick('Икра стерляди', 'https://cdn.poehali.dev/files/WhatsApp-Image-2023-11-24-at-22.38.04.jpeg')}>
               <div className="mb-6">
                 <img 
                   src="https://cdn.poehali.dev/files/WhatsApp-Image-2023-11-24-at-22.38.04.jpeg" 
@@ -176,7 +191,7 @@ const Index = () => {
               </div>
             </Card>
 
-            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
+            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300 cursor-pointer" onClick={() => handleProductClick('Осетр речной', 'https://cdn.poehali.dev/files/осетр%20свежий.jpg')}>
               <div className="mb-6">
                 <img 
                   src="https://cdn.poehali.dev/files/осетр%20свежий.jpg" 
@@ -199,7 +214,7 @@ const Index = () => {
               </div>
             </Card>
 
-            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
+            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300 cursor-pointer" onClick={() => handleProductClick('Стерлядь речная', 'https://cdn.poehali.dev/files/5314803716072344648.jpg')}>
               <div className="mb-6">
                 <img 
                   src="https://cdn.poehali.dev/files/5314803716072344648.jpg" 
@@ -218,7 +233,7 @@ const Index = () => {
               </div>
             </Card>
 
-            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
+            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300 cursor-pointer" onClick={() => handleProductClick('Осетр горячего копчения', 'https://cdn.poehali.dev/files/бгбх.jpg')}>
               <div className="mb-6">
                 <img 
                   src="https://cdn.poehali.dev/files/бгбх.jpg" 
@@ -237,7 +252,7 @@ const Index = () => {
               </div>
             </Card>
 
-            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
+            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300 cursor-pointer" onClick={() => handleProductClick('Осетр горячего копчения', 'https://cdn.poehali.dev/files/1b8f68c0-aad2-4739-b844-9534565e018e.jpg')}>
               <div className="mb-6">
                 <img 
                   src="https://cdn.poehali.dev/files/1b8f68c0-aad2-4739-b844-9534565e018e.jpg" 
@@ -262,7 +277,7 @@ const Index = () => {
               </div>
             </Card>
 
-            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
+            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300 cursor-pointer" onClick={() => handleProductClick('Балык-книжка Осетровый холодного копчения', 'https://cdn.poehali.dev/files/9c0d4146-c300-40a2-b66e-91bd6a386faf.jpg')}>
               <div className="mb-6">
                 <img 
                   src="https://cdn.poehali.dev/files/9c0d4146-c300-40a2-b66e-91bd6a386faf.jpg" 
@@ -380,6 +395,12 @@ const Index = () => {
           <p className="text-lg">© 2025 ООО "ЭКОФИШ +". Все права защищены.</p>
         </div>
       </footer>
+
+      <ProductModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        product={selectedProduct}
+      />
     </div>
   );
 };
