@@ -150,7 +150,7 @@ const Index = () => {
           </h2>
 
           <div className="grid md:grid-cols-2 gap-12">
-            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300">
+            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300 cursor-pointer" onClick={() => handleProductClick('Икра осетра', 'https://cdn.poehali.dev/files/5314803716072344646.jpg')}>
               <div className="mb-6">
                 <img 
                   src="https://cdn.poehali.dev/files/5314803716072344646.jpg" 
