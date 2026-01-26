@@ -392,7 +392,7 @@ const Index = () => {
 
       <footer className="py-8 px-4 bg-background border-t border-border">
         <div className="container mx-auto text-center text-muted-foreground">
-          <p className="text-lg">© 2025 ООО "ЭКОФИШ +". Все права защищены.</p>
+          <p className="text-lg">© 2026 ООО "ЭКОФИШ +". Все права защищены.</p>
         </div>
       </footer>
 
