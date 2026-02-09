@@ -13,6 +13,7 @@ interface Product {
   id: string;
   title: string;
   description: string;
+  fullDescription?: string;
   image: string;
   price: string;
   promo?: {
@@ -110,9 +111,9 @@ const Index = () => {
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
-  const handleProductClick = (title: string, image: string) => {
-    const description = productDescriptions[title] || 'Описание недоступно';
-    setSelectedProduct({ title, description, image });
+  const handleProductClick = (product: Product) => {
+    const description = product.fullDescription || productDescriptions[product.title] || 'Описание недоступно';
+    setSelectedProduct({ title: product.title, description, image: product.image });
     setIsModalOpen(true);
   };
 
@@ -246,7 +247,7 @@ const Index = () => {
               <Card
                 key={product.id}
                 className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300 cursor-pointer"
-                onClick={() => handleProductClick(product.title, product.image)}
+                onClick={() => handleProductClick(product)}
               >
                 <div className="mb-6">
                   <img

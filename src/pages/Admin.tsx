@@ -15,6 +15,7 @@ interface Product {
   id: string;
   title: string;
   description: string;
+  fullDescription?: string;
   image: string;
   price: string;
   promo?: {
@@ -148,6 +149,7 @@ const Admin = () => {
       id: Date.now().toString(),
       title: 'Новый товар',
       description: 'Описание товара',
+      fullDescription: '',
       image: 'https://cdn.poehali.dev/files/placeholder.jpg',
       price: '1000',
     };
@@ -422,6 +424,21 @@ const Admin = () => {
                       placeholder="Введите цену, например:&#10;2 500₽/кг&#10;или:&#10;• 3-4 кг: 1 750₽/кг&#10;• 4-5 кг: 1 850₽/кг"
                     />
                     <p className="text-xs text-slate-500 mt-2">Можно указать как просто цену (2500), так и текстовое описание с разными условиями</p>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="fullDescription">Подробное описание (открывается при клике)</Label>
+                    <Textarea
+                      id="fullDescription"
+                      value={editingProduct.fullDescription || ''}
+                      onChange={(e) =>
+                        setEditingProduct({ ...editingProduct, fullDescription: e.target.value })
+                      }
+                      className="mt-2"
+                      rows={8}
+                      placeholder="Введите подробное описание товара, которое будет отображаться в модальном окне при клике на карточку..."
+                    />
+                    <p className="text-xs text-slate-500 mt-2">Это описание увидят клиенты при нажатии на товар. Можно использовать переносы строк.</p>
                   </div>
 
                   <div className="pt-4 border-t">
