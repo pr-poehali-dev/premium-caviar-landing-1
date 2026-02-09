@@ -279,9 +279,11 @@ const Index = () => {
                   </div>
                 ) : (
                   <div className="bg-muted p-6 rounded-2xl">
-                    <p className="text-2xl font-bold text-primary">
-                      {parseInt(product.price).toLocaleString()}₽/кг
-                    </p>
+                    <div className="text-2xl font-bold text-primary whitespace-pre-line">
+                      {isNaN(Number(product.price)) 
+                        ? product.price 
+                        : `${parseInt(product.price).toLocaleString()}₽/кг`}
+                    </div>
                   </div>
                 )}
               </Card>

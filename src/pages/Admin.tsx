@@ -319,8 +319,10 @@ const Admin = () => {
                       <p className="text-sm text-slate-600 mt-1 line-clamp-2">
                         {product.description}
                       </p>
-                      <p className="text-lg font-bold text-primary mt-2">
-                        {parseInt(product.price).toLocaleString()}₽/кг
+                      <p className="text-lg font-bold text-primary mt-2 line-clamp-2">
+                        {isNaN(Number(product.price)) 
+                          ? product.price 
+                          : `${parseInt(product.price).toLocaleString()}₽/кг`}
                       </p>
                     </div>
                   </div>
@@ -408,17 +410,18 @@ const Admin = () => {
                   </div>
 
                   <div>
-                    <Label htmlFor="price">Цена (₽/кг)</Label>
-                    <Input
+                    <Label htmlFor="price">Цена</Label>
+                    <Textarea
                       id="price"
-                      type="number"
                       value={editingProduct.price}
                       onChange={(e) =>
                         setEditingProduct({ ...editingProduct, price: e.target.value })
                       }
                       className="mt-2"
-                      placeholder="Введите цену в рублях"
+                      rows={4}
+                      placeholder="Введите цену, например:&#10;2 500₽/кг&#10;или:&#10;• 3-4 кг: 1 750₽/кг&#10;• 4-5 кг: 1 850₽/кг"
                     />
+                    <p className="text-xs text-slate-500 mt-2">Можно указать как просто цену (2500), так и текстовое описание с разными условиями</p>
                   </div>
 
                   <div className="pt-4 border-t">
