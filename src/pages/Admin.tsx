@@ -308,7 +308,13 @@ const Admin = () => {
                       ? 'ring-2 ring-primary border-primary'
                       : 'hover:shadow-md'
                   }`}
-                  onClick={() => setEditingProduct(product)}
+                  onClick={() => {
+                    const productWithDescription = {
+                      ...product,
+                      fullDescription: product.fullDescription || productDescriptions[product.title] || ''
+                    };
+                    setEditingProduct(productWithDescription);
+                  }}
                 >
                   <div className="flex gap-4">
                     <img
