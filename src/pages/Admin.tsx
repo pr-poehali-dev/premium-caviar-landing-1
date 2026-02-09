@@ -31,6 +31,7 @@ const Admin = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -162,6 +163,68 @@ const Admin = () => {
     setProducts(updatedProducts);
     localStorage.setItem('products', JSON.stringify(updatedProducts));
     setEditingProduct(null);
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setErrorMessage('Пожалуйста, выберите файл изображения');
+      setShowError(true);
+      setTimeout(() => setShowError(false), 3000);
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setErrorMessage('Размер файла не должен превышать 5 МБ');
+      setShowError(true);
+      setTimeout(() => setShowError(false), 3000);
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        const base64Image = event.target?.result as string;
+
+        const response = await fetch('https://functions.poehali.dev/9b246b55-e84a-4a36-ae0c-04366201b926', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            image: base64Image,
+            filename: file.name,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && editingProduct) {
+          setEditingProduct({
+            ...editingProduct,
+            image: data.url,
+          });
+          setShowSuccess(true);
+          setTimeout(() => setShowSuccess(false), 2000);
+        } else {
+          setErrorMessage(data.error || 'Ошибка загрузки изображения');
+          setShowError(true);
+          setTimeout(() => setShowError(false), 3000);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    } catch (error) {
+      setErrorMessage('Ошибка загрузки изображения');
+      setShowError(true);
+      setTimeout(() => setShowError(false), 3000);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   if (!isAuthenticated) {
@@ -307,23 +370,41 @@ const Admin = () => {
                   </div>
 
                   <div>
-                    <Label htmlFor="image">URL изображения</Label>
-                    <Input
-                      id="image"
-                      value={editingProduct.image}
-                      onChange={(e) =>
-                        setEditingProduct({ ...editingProduct, image: e.target.value })
-                      }
-                      className="mt-2"
-                      placeholder="https://..."
-                    />
-                    {editingProduct.image && (
-                      <img
-                        src={editingProduct.image}
-                        alt="Предпросмотр"
-                        className="mt-3 w-full h-48 object-cover rounded-lg"
+                    <Label htmlFor="image">Изображение товара</Label>
+                    <div className="mt-2 space-y-4">
+                      <Input
+                        id="image"
+                        value={editingProduct.image}
+                        onChange={(e) =>
+                          setEditingProduct({ ...editingProduct, image: e.target.value })
+                        }
+                        placeholder="https://..."
                       />
-                    )}
+                      <div className="flex items-center gap-4">
+                        <label htmlFor="image-upload" className="cursor-pointer">
+                          <div className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                            <Icon name={isUploading ? 'Loader2' : 'Upload'} size={18} className={isUploading ? 'animate-spin' : ''} />
+                            <span>{isUploading ? 'Загрузка...' : 'Загрузить файл'}</span>
+                          </div>
+                          <input
+                            id="image-upload"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            className="hidden"
+                            disabled={isUploading}
+                          />
+                        </label>
+                      </div>
+                      <p className="text-xs text-slate-500">Максимальный размер: 5 МБ. Форматы: JPG, PNG, GIF, WebP</p>
+                      {editingProduct.image && (
+                        <img
+                          src={editingProduct.image}
+                          alt="Предпросмотр"
+                          className="w-full h-48 object-cover rounded-lg border-2 border-slate-200"
+                        />
+                      )}
+                    </div>
                   </div>
 
                   <div>
