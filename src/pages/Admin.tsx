@@ -24,6 +24,13 @@ interface Product {
   };
 }
 
+interface Order {
+  id: number;
+  name: string;
+  phone: string;
+  created_at: string;
+}
+
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
@@ -33,6 +40,8 @@ const Admin = () => {
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isUploading, setIsUploading] = useState(false);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [showOrders, setShowOrders] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,8 +49,21 @@ const Admin = () => {
     if (savedAuth === 'true') {
       setIsAuthenticated(true);
       loadProducts();
+      loadOrders();
     }
   }, []);
+
+  const loadOrders = async () => {
+    try {
+      const response = await fetch('https://functions.poehali.dev/018bdb2f-504b-49c5-a0c8-8511cab7f093');
+      const data = await response.json();
+      if (response.ok) {
+        setOrders(data.orders);
+      }
+    } catch (error) {
+      console.error('Failed to load orders:', error);
+    }
+  };
 
   const loadProducts = () => {
     const savedProducts = localStorage.getItem('products');
@@ -271,15 +293,80 @@ const Admin = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <div className="bg-white shadow-sm border-b sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-slate-900">Управление товарами</h1>
-          <Button onClick={handleLogout} variant="outline">
-            <Icon name="LogOut" size={18} className="mr-2" />
-            Выйти
-          </Button>
+          <h1 className="text-2xl font-bold text-slate-900">Панель администратора</h1>
+          <div className="flex gap-3">
+            <Button 
+              onClick={() => setShowOrders(!showOrders)} 
+              variant={showOrders ? "default" : "outline"}
+            >
+              <Icon name="Users" size={18} className="mr-2" />
+              Заявки ({orders.length})
+            </Button>
+            <Button onClick={handleLogout} variant="outline">
+              <Icon name="LogOut" size={18} className="mr-2" />
+              Выйти
+            </Button>
+          </div>
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-8">
+        {showOrders ? (
+          <div>
+            <h2 className="text-3xl font-bold text-slate-900 mb-6">Заявки клиентов</h2>
+            {orders.length === 0 ? (
+              <Card className="p-12 text-center">
+                <Icon name="Inbox" size={48} className="mx-auto text-slate-300 mb-4" />
+                <p className="text-slate-500">Пока нет заявок</p>
+              </Card>
+            ) : (
+              <div className="space-y-4">
+                {orders.map((order) => (
+                  <Card key={order.id} className="p-6">
+                    <div className="grid md:grid-cols-4 gap-4 items-center">
+                      <div>
+                        <p className="text-sm text-slate-500">Имя</p>
+                        <p className="font-semibold text-slate-900">{order.name}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-slate-500">Телефон</p>
+                        <a 
+                          href={`tel:${order.phone}`} 
+                          className="font-semibold text-primary hover:underline"
+                        >
+                          {order.phone}
+                        </a>
+                      </div>
+                      <div>
+                        <p className="text-sm text-slate-500">Дата заявки</p>
+                        <p className="font-semibold text-slate-900">
+                          {new Date(order.created_at).toLocaleString('ru-RU', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => window.open(`tel:${order.phone}`)}
+                        >
+                          <Icon name="Phone" size={16} className="mr-2" />
+                          Позвонить
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div>
         {showSuccess && (
           <Alert className="mb-6 bg-green-50 border-green-200">
             <Icon name="CheckCircle" size={18} className="text-green-600" />
@@ -463,6 +550,8 @@ const Admin = () => {
             )}
           </div>
         </div>
+          </div>
+        )}
       </div>
     </div>
   );
