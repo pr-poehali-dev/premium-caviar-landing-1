@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
@@ -9,6 +9,18 @@ import { Link } from 'react-router-dom';
 import ProductModal from '@/components/ProductModal';
 import { productDescriptions } from '@/data/products';
 
+interface Product {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  price: string;
+  promo?: {
+    enabled: boolean;
+    prices: { condition: string; price: string; oldPrice: string }[];
+  };
+}
+
 const Index = () => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -16,7 +28,87 @@ const Index = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<{ title: string; description: string; image: string } | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const loadProducts = () => {
+      const saved = localStorage.getItem('products');
+      if (saved) {
+        setProducts(JSON.parse(saved));
+      } else {
+        const defaults: Product[] = [
+          {
+            id: '1',
+            title: 'Икра осетра',
+            description: 'Черная зернистая малосольная икра без консервантов. Упакована в железные банки под резинкой по 125 и 250 грамм.',
+            image: 'https://cdn.poehali.dev/files/5314803716072344646.jpg',
+            price: '56000',
+          },
+          {
+            id: '2',
+            title: 'Икра стерляди',
+            description: 'Черная зернистая малосольная икра без консервантов. Упакована в железные банки под резинкой по 125 и 250 грамм.',
+            image: 'https://cdn.poehali.dev/files/WhatsApp-Image-2023-11-24-at-22.38.04.jpeg',
+            price: '48000',
+            promo: {
+              enabled: true,
+              prices: [
+                { condition: 'При покупке менее 1 кг', price: '44000', oldPrice: '48000' },
+                { condition: 'При покупке более 1 кг', price: '42000', oldPrice: '48000' },
+                { condition: 'При покупке более 3 кг', price: '40000', oldPrice: '48000' },
+              ],
+            },
+          },
+          {
+            id: '3',
+            title: 'Осетр речной',
+            description: 'Охлаждённый или свежемороженый осетр',
+            image: 'https://cdn.poehali.dev/files/осетр%20свежий.jpg',
+            price: '2500',
+          },
+          {
+            id: '4',
+            title: 'Стерлядь речная',
+            description: 'Охлаждённая или свежемороженая стерлядь',
+            image: 'https://cdn.poehali.dev/files/5314803716072344648.jpg',
+            price: '3000',
+          },
+          {
+            id: '5',
+            title: 'Осетр горячего копчения',
+            description: 'Деликатес горячего копчения',
+            image: 'https://cdn.poehali.dev/files/бгбх.jpg',
+            price: '4500',
+          },
+          {
+            id: '6',
+            title: 'Стерлядь горячего копчения',
+            description: 'Деликатес горячего копчения',
+            image: 'https://cdn.poehali.dev/files/стерлядь%20гор%20коп%201.jpg',
+            price: '5500',
+          },
+          {
+            id: '7',
+            title: 'Балык-книжка Осетровый холодного копчения',
+            description: 'Балык холодного копчения',
+            image: 'https://cdn.poehali.dev/files/9c0d4146-c300-40a2-b66e-91bd6a386faf.jpg',
+            price: '8500',
+          },
+        ];
+        setProducts(defaults);
+        localStorage.setItem('products', JSON.stringify(defaults));
+      }
+    };
+
+    loadProducts();
+
+    const handleStorageChange = () => {
+      loadProducts();
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   const handleProductClick = (title: string, image: string) => {
     const description = productDescriptions[title] || 'Описание недоступно';
@@ -150,253 +242,112 @@ const Index = () => {
           </h2>
 
           <div className="grid md:grid-cols-2 gap-12">
-            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300 cursor-pointer" onClick={() => handleProductClick('Икра осетра', 'https://cdn.poehali.dev/files/5314803716072344646.jpg')}>
-              <div className="mb-6">
-                <img 
-                  src="https://cdn.poehali.dev/files/5314803716072344646.jpg" 
-                  alt="Икра осетра"
-                  className="w-full h-64 object-cover rounded-2xl mb-6"
-                />
-                <h3 className="text-3xl font-bold mb-4 text-primary">
-                  Икра осетра
-                </h3>
-                <p className="text-sm text-muted-foreground mb-4">Черная зернистая малосольная икра без консервантов. Упакована в железные банки под резинкой по 125 и 250 грамм. Без дополнительной пастеризации.</p>
-              </div>
-              
-              <div className="bg-muted p-6 rounded-2xl">
-                <p className="text-2xl font-bold text-primary">56 000₽/кг</p>
-              </div>
-            </Card>
-
-            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300 cursor-pointer" onClick={() => handleProductClick('Икра стерляди', 'https://cdn.poehali.dev/files/WhatsApp-Image-2023-11-24-at-22.38.04.jpeg')}>
-              <div className="mb-6">
-                <img 
-                  src="https://cdn.poehali.dev/files/WhatsApp-Image-2023-11-24-at-22.38.04.jpeg" 
-                  alt="Икра стерляди"
-                  className="w-full h-64 object-cover rounded-2xl mb-6"
-                />
-                <h3 className="text-3xl font-bold mb-4 text-primary">
-                  Икра стерляди
-                </h3>
-                <p className="text-sm text-muted-foreground mb-4">Черная зернистая малосольная икра без консервантов. Упакована в железные банки под резинкой по 125 и 250 грамм. Без дополнительной пастеризации.</p>
-              </div>
-              
-              <div className="bg-accent/10 p-6 rounded-2xl border-2 border-accent">
-                <p className="text-2xl font-bold text-accent mb-4">🎉 АКЦИЯ!</p>
-                <div className="space-y-2 text-foreground">
-                  <p>• При покупке менее 1 кг: <span className="font-bold text-accent">44 000₽/кг</span> <span className="line-through text-muted-foreground">48 000₽</span></p>
-                  <p>• При покупке более 1 кг: <span className="font-bold text-accent">42 000₽/кг</span> <span className="line-through text-muted-foreground">48 000₽</span></p>
-                  <p>• При покупке более 3 кг: <span className="font-bold text-accent">40 000₽/кг</span> <span className="line-through text-muted-foreground">48 000₽</span></p>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300 cursor-pointer" onClick={() => handleProductClick('Осетр речной', 'https://cdn.poehali.dev/files/осетр%20свежий.jpg')}>
-              <div className="mb-6">
-                <img 
-                  src="https://cdn.poehali.dev/files/осетр%20свежий.jpg" 
-                  alt="Осетр"
-                  className="w-full h-64 object-cover rounded-2xl mb-6"
-                />
-                <h3 className="text-3xl font-bold mb-4 text-primary">
-                  Осетр речной
-                </h3>
-                <p className="text-sm text-muted-foreground mb-4">Непотрошенный охлажденный или быстрозамороженный</p>
-              </div>
-              
-              <div className="space-y-3 text-foreground">
-                <p>• 3-4 кг: <span className="font-bold text-primary">1 750₽/кг</span></p>
-                <p>• 4-5 кг: <span className="font-bold text-primary">1 850₽/кг</span></p>
-                <p>• 5-6 кг: <span className="font-bold text-primary">1 950₽/кг</span></p>
-                <p>• 6-8 кг: <span className="font-bold text-accent">1 900₽/кг</span> <span className="line-through text-muted-foreground">2 050₽</span></p>
-                <p>• 8-10 кг: <span className="font-bold text-accent">2 000₽/кг</span> <span className="line-through text-muted-foreground">2 150₽</span></p>
-                <p>• 10+ кг: <span className="font-bold text-primary">2 250₽/кг</span></p>
-              </div>
-            </Card>
-
-            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300 cursor-pointer" onClick={() => handleProductClick('Стерлядь речная', 'https://cdn.poehali.dev/files/5314803716072344648.jpg')}>
-              <div className="mb-6">
-                <img 
-                  src="https://cdn.poehali.dev/files/5314803716072344648.jpg" 
-                  alt="Стерлядь речная"
-                  className="w-full h-64 object-cover rounded-2xl mb-6"
-                />
-                <h3 className="text-3xl font-bold mb-4 text-primary">
-                  Стерлядь речная
-                </h3>
-                <p className="text-sm text-muted-foreground mb-4">Охлажденная или быстрозамороженная</p>
-              </div>
-              
-              <div className="space-y-2 text-foreground">
-                <p>• До 1,5 кг: <span className="font-bold text-accent">1 500₽/кг</span> <span className="line-through text-muted-foreground">1 650₽</span></p>
-                <p>• От 1,5 кг: <span className="font-bold text-primary">1 650₽/кг</span></p>
-              </div>
-            </Card>
-
-            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300 cursor-pointer" onClick={() => handleProductClick('Осетр горячего копчения', 'https://cdn.poehali.dev/files/бгбх.jpg')}>
-              <div className="mb-6">
-                <img 
-                  src="https://cdn.poehali.dev/files/бгбх.jpg" 
-                  alt="Осетр горячего копчения"
-                  className="w-full h-64 object-cover rounded-2xl mb-6"
-                />
-                <h3 className="text-3xl font-bold mb-4 text-primary">
-                  Осетр горячего копчения
-                </h3>
-                <p className="text-sm text-muted-foreground mb-4">На опилках (ветла + груша + ольха)</p>
-                <p className="text-sm text-muted-foreground mb-4">2,2-3,3 кг/шт, потрошенный, без головы и хвоста</p>
-              </div>
-              
-              <div className="bg-muted p-6 rounded-2xl">
-                <p className="text-2xl font-bold text-primary">3 950₽/кг</p>
-              </div>
-            </Card>
-
-            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300 cursor-pointer" onClick={() => handleProductClick('Осетр горячего копчения', 'https://cdn.poehali.dev/files/1b8f68c0-aad2-4739-b844-9534565e018e.jpg')}>
-              <div className="mb-6">
-                <img 
-                  src="https://cdn.poehali.dev/files/1b8f68c0-aad2-4739-b844-9534565e018e.jpg" 
-                  alt="Осетр копченый"
-                  className="w-full h-64 object-cover rounded-2xl mb-6"
-                />
-                <h3 className="text-3xl font-bold mb-4 text-primary">
-                  Осетр горячего копчения
-                </h3>
-                <p className="text-sm text-muted-foreground mb-4">на опилках (ветла + груша + ольха)</p>
-              </div>
-              
-              <div className="space-y-4 text-foreground">
-                <div className="bg-muted p-4 rounded-2xl">
-                  <p className="text-xl font-bold text-primary mb-2">3 600₽/кг</p>
-                  <p className="text-sm text-muted-foreground">2,5-3,5 кг/шт, потрошенный, с головой и хвостом</p>
-                </div>
-                <div className="bg-muted p-4 rounded-2xl my-3.5 py-0">
-                  <p className="font-bold text-primary mb-2 text-sm text-center">Красивая  подача на вашем столе! </p>
-                  <p className="text-sm text-muted-foreground"></p>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300 cursor-pointer" onClick={() => handleProductClick('Балык-книжка Осетровый холодного копчения', 'https://cdn.poehali.dev/files/9c0d4146-c300-40a2-b66e-91bd6a386faf.jpg')}>
-              <div className="mb-6">
-                <img 
-                  src="https://cdn.poehali.dev/files/9c0d4146-c300-40a2-b66e-91bd6a386faf.jpg" 
-                  alt="Балык"
-                  className="w-full h-64 object-cover rounded-2xl mb-6"
-                />
-                <h3 className="text-3xl font-bold mb-4 text-primary">
-                  Балык-книжка из осетра
-                </h3>
-                <p className="text-sm text-muted-foreground mb-4">холодного копчения на опилках (шелковица)</p>
-              </div>
-              
-              <div className="bg-muted p-6 rounded-2xl">
-                <p className="text-3xl font-bold text-primary mb-3">4 900₽/кг</p>
-                <p className="text-sm text-muted-foreground">около 2,5-4 кг без головы и хвоста</p>
-              </div>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 px-4 bg-background">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-5xl md:text-6xl font-bold text-center mb-16 text-primary">Всего 3 шага:</h2>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="p-8 rounded-3xl bg-card text-center hover:scale-105 transition-transform duration-300">
-              <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                <Icon name="Search" size={40} className="text-background" />
-              </div>
-              <h3 className="text-2xl font-bold mb-4 text-foreground">Шаг 1</h3>
-              <p className="text-lg text-muted-foreground">Выберите продукт</p>
-            </Card>
-
-            <Card className="p-8 rounded-3xl bg-card text-center hover:scale-105 transition-transform duration-300">
-              <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                <Icon name="Phone" size={40} className="text-background" />
-              </div>
-              <h3 className="text-2xl font-bold mb-4 text-foreground">Шаг 2</h3>
-              <p className="text-lg text-muted-foreground">Позвоните нам или оставьте свой номер</p>
-            </Card>
-
-            <Card className="p-8 rounded-3xl bg-card text-center hover:scale-105 transition-transform duration-300">
-              <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
-                <Icon name="Package" size={40} className="text-background" />
-              </div>
-              <h3 className="text-2xl font-bold mb-4 text-foreground">Шаг 3</h3>
-              <p className="text-lg text-muted-foreground">Получите свежий продукт в надежной упаковке у себя дома</p>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 px-4 bg-card">
-        <div className="container mx-auto max-w-3xl text-center">
-          <h2 className="text-5xl md:text-6xl font-bold mb-6 text-primary">
-            Превратите ваш вечер в событие
-          </h2>
-          <p className="text-xl md:text-2xl mb-12 text-muted-foreground">Закажите икру или рыбу прямо сейчас.</p>
-
-          <Card className="p-8 rounded-3xl bg-secondary border-2 border-primary">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <Input
-                  type="text"
-                  placeholder="Ваше имя"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="text-lg p-6 rounded-2xl bg-background border-border focus:border-primary"
-                  required
-                />
-              </div>
-              
-              <div>
-                <Input
-                  type="tel"
-                  placeholder="Ваш телефон (например, +7 999 123 45 67)"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="text-lg p-6 rounded-2xl bg-background border-border focus:border-primary"
-                  required
-                />
-              </div>
-
-              <div className="flex items-start gap-3 text-left">
-                <Checkbox
-                  id="privacy-agree"
-                  checked={agreed}
-                  onCheckedChange={(checked) => setAgreed(checked as boolean)}
-                  className="mt-1"
-                />
-                <label htmlFor="privacy-agree" className="text-sm text-muted-foreground cursor-pointer">
-                  Я согласен с{' '}
-                  <Link to="/privacy" className="text-primary hover:text-accent underline">
-                    условиями работы сайта
-                  </Link>
-                  {' '}и даю согласие на обработку моих персональных данных
-                </label>
-              </div>
-
-              <Button
-                type="submit"
-                disabled={isSubmitting || !agreed}
-                className="w-full text-xl py-6 rounded-2xl bg-primary hover:bg-accent text-background font-bold transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+            {products.map((product) => (
+              <Card
+                key={product.id}
+                className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300 cursor-pointer"
+                onClick={() => handleProductClick(product.title, product.image)}
               >
-                {isSubmitting ? 'Отправка...' : 'Мы вам позвоним'}
-              </Button>
-            </form>
-          </Card>
+                <div className="mb-6">
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    className="w-full h-64 object-cover rounded-2xl mb-6"
+                  />
+                  <h3 className="text-3xl font-bold mb-4 text-primary">
+                    {product.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4">{product.description}</p>
+                </div>
+
+                {product.promo?.enabled ? (
+                  <div className="bg-accent/10 p-6 rounded-2xl border-2 border-accent">
+                    <p className="text-2xl font-bold text-accent mb-4">🎉 АКЦИЯ!</p>
+                    <div className="space-y-2 text-foreground">
+                      {product.promo.prices.map((priceItem, idx) => (
+                        <p key={idx}>
+                          • {priceItem.condition}:{' '}
+                          <span className="font-bold text-accent">
+                            {parseInt(priceItem.price).toLocaleString()}₽/кг
+                          </span>{' '}
+                          <span className="line-through text-muted-foreground">
+                            {parseInt(priceItem.oldPrice).toLocaleString()}₽
+                          </span>
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-muted p-6 rounded-2xl">
+                    <p className="text-2xl font-bold text-primary">
+                      {parseInt(product.price).toLocaleString()}₽/кг
+                    </p>
+                  </div>
+                )}
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
 
-      <footer className="py-8 px-4 bg-background border-t border-border">
-        <div className="container mx-auto text-center text-muted-foreground">
-          <p className="text-lg">© 2026 ООО "ЭКОФИШ +". Все права защищены.</p>
-        </div>
-      </footer>
+      <section id="contact" className="py-20 px-4 bg-background">
+        <div className="container mx-auto max-w-2xl">
+          <h2 className="text-5xl md:text-6xl font-bold text-center mb-4 text-primary">
+            Оставьте заявку
+          </h2>
+          <p className="text-center text-xl text-muted-foreground mb-12">
+            Мы свяжемся с вами в ближайшее время
+          </p>
 
-      <ProductModal 
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <Input
+                type="text"
+                placeholder="Ваше имя"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full h-14 text-lg bg-card"
+                required
+              />
+            </div>
+
+            <div>
+              <Input
+                type="tel"
+                placeholder="Телефон"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full h-14 text-lg bg-card"
+                required
+              />
+            </div>
+
+            <div className="flex items-center gap-3">
+              <Checkbox
+                id="privacy"
+                checked={agreed}
+                onCheckedChange={(checked) => setAgreed(checked as boolean)}
+              />
+              <label htmlFor="privacy" className="text-sm text-muted-foreground cursor-pointer">
+                Я согласен с{' '}
+                <Link to="/privacy" className="text-primary hover:underline">
+                  условиями обработки персональных данных
+                </Link>
+              </label>
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full h-14 text-lg font-semibold"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Отправка...' : 'Отправить заявку'}
+            </Button>
+          </form>
+        </div>
+      </section>
+
+      <ProductModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         product={selectedProduct}
