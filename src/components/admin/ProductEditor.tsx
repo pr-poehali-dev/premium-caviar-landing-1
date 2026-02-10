@@ -108,15 +108,18 @@ const ProductEditor = ({
           <Label htmlFor="price">Цена (₽/кг)</Label>
           <Input
             id="price"
-            type="number"
+            type="text"
             value={product.price}
             onChange={(e) => {
-              const value = e.target.value.replace(/[^\d]/g, '');
+              const value = e.target.value.replace(/\D/g, '');
               onUpdateProduct({ ...product, price: value });
             }}
+            onKeyDown={(e) => {
+              if (!/[\d]/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.key)) {
+                e.preventDefault();
+              }
+            }}
             placeholder="Цена"
-            min="0"
-            step="1"
           />
         </div>
 
