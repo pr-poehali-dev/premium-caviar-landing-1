@@ -105,14 +105,17 @@ const ProductEditor = ({
         </div>
 
         <div>
-          <Label htmlFor="price">Цена (₽/кг)</Label>
-          <Input
+          <Label htmlFor="price">Цена</Label>
+          <Textarea
             id="price"
-            type="number"
             value={product.price}
             onChange={(e) => onUpdateProduct({ ...product, price: e.target.value })}
-            placeholder="Цена"
+            placeholder="Например: 2500₽/кг или список цен"
+            rows={2}
           />
+          <p className="text-xs text-slate-500 mt-1">
+            Можно указать простую цену (2500) или детальный прайс со списком
+          </p>
         </div>
 
         <div className="pt-4 border-t flex gap-3">
