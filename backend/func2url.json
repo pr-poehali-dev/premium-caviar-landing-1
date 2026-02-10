@@ -1,4 +1,5 @@
 {
+  "delete-order": "https://functions.poehali.dev/6abdd15a-c1f2-4b06-9389-69dfc035ff9e",
   "get-orders": "https://functions.poehali.dev/018bdb2f-504b-49c5-a0c8-8511cab7f093",
   "upload-image": "https://functions.poehali.dev/9b246b55-e84a-4a36-ae0c-04366201b926"
 }

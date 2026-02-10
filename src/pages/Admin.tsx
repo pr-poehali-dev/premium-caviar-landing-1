@@ -65,6 +65,34 @@ const Admin = () => {
     }
   };
 
+  const handleDeleteOrder = async (orderId: number) => {
+    if (!confirm('Вы уверены, что хотите удалить эту заявку?')) return;
+
+    try {
+      const response = await fetch('https://functions.poehali.dev/6abdd15a-c1f2-4b06-9389-69dfc035ff9e', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: orderId }),
+      });
+
+      if (response.ok) {
+        setOrders(orders.filter(order => order.id !== orderId));
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 2000);
+      } else {
+        setErrorMessage('Ошибка при удалении заявки');
+        setShowError(true);
+        setTimeout(() => setShowError(false), 3000);
+      }
+    } catch (error) {
+      setErrorMessage('Ошибка при удалении заявки');
+      setShowError(true);
+      setTimeout(() => setShowError(false), 3000);
+    }
+  };
+
   const loadProducts = () => {
     const savedProducts = localStorage.getItem('products');
     if (savedProducts) {
@@ -357,6 +385,18 @@ const Admin = () => {
                         >
                           <Icon name="Phone" size={16} className="mr-2" />
                           Позвонить
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteOrder(order.id);
+                          }}
+                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                        >
+                          <Icon name="Trash2" size={16} className="mr-2" />
+                          Удалить
                         </Button>
                       </div>
                     </div>

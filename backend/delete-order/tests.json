@@ -1,0 +1,13 @@
+{
+  "tests": [
+    {
+      "name": "Delete order",
+      "method": "DELETE",
+      "path": "/",
+      "body": {
+        "id": 999
+      },
+      "expectedStatus": 200
+    }
+  ]
+}
