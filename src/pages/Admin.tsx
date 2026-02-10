@@ -390,7 +390,7 @@ const Admin = () => {
               {products.map((product) => (
                 <Card
                   key={product.id}
-                  className={`p-4 cursor-pointer transition-all ${
+                  className={`p-4 cursor-pointer transition-all bg-blue-50 border-blue-200 ${
                     editingProduct?.id === product.id
                       ? 'ring-2 ring-primary border-primary'
                       : 'hover:shadow-md'
