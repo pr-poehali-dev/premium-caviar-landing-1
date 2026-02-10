@@ -279,9 +279,18 @@ const Admin = () => {
   };
 
   const handleSelectProduct = (product: Product) => {
+    let priceText = product.price;
+    
+    if (product.promo?.enabled && product.promo.prices.length > 0) {
+      priceText = product.promo.prices
+        .map(p => `${p.condition}: ${parseInt(p.price).toLocaleString('ru-RU')}₽/кг (было ${parseInt(p.oldPrice).toLocaleString('ru-RU')}₽)`)
+        .join('\n');
+    }
+    
     const productWithDescription = {
       ...product,
-      fullDescription: product.fullDescription || productDescriptions[product.title] || ''
+      fullDescription: product.fullDescription || productDescriptions[product.title] || '',
+      price: priceText
     };
     setEditingProduct(productWithDescription);
   };
