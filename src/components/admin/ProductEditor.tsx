@@ -109,14 +109,24 @@ const ProductEditor = ({
           <Input
             id="price"
             type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
             value={product.price}
             onChange={(e) => {
               const value = e.target.value.replace(/\D/g, '');
               onUpdateProduct({ ...product, price: value });
             }}
-            onKeyDown={(e) => {
-              if (!/[\d]/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.key)) {
+            onKeyPress={(e) => {
+              if (!/[0-9]/.test(e.key)) {
                 e.preventDefault();
+              }
+            }}
+            onPaste={(e) => {
+              e.preventDefault();
+              const pastedText = e.clipboardData.getData('text');
+              const numericValue = pastedText.replace(/\D/g, '');
+              if (numericValue) {
+                onUpdateProduct({ ...product, price: numericValue });
               }
             }}
             placeholder="Цена"
