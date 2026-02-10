@@ -108,27 +108,9 @@ const ProductEditor = ({
           <Label htmlFor="price">Цена (₽/кг)</Label>
           <Input
             id="price"
-            type="text"
-            inputMode="numeric"
-            pattern="[0-9]*"
+            type="number"
             value={product.price}
-            onChange={(e) => {
-              const value = e.target.value.replace(/\D/g, '');
-              onUpdateProduct({ ...product, price: value });
-            }}
-            onKeyPress={(e) => {
-              if (!/[0-9]/.test(e.key)) {
-                e.preventDefault();
-              }
-            }}
-            onPaste={(e) => {
-              e.preventDefault();
-              const pastedText = e.clipboardData.getData('text');
-              const numericValue = pastedText.replace(/\D/g, '');
-              if (numericValue) {
-                onUpdateProduct({ ...product, price: numericValue });
-              }
-            }}
+            onChange={(e) => onUpdateProduct({ ...product, price: e.target.value })}
             placeholder="Цена"
           />
         </div>
