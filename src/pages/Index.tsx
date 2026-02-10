@@ -268,9 +268,7 @@ const Index = () => {
                       {product.promo.prices.map((priceItem, idx) => (
                         <p key={idx}>
                           • {priceItem.condition}:{' '}
-                          <span className="font-bold text-accent">
-                            {parseInt(priceItem.price).toLocaleString()}₽/кг
-                          </span>{' '}
+                          <span className="font-bold text-accent">46000</span>{' '}
                           <span className="line-through text-muted-foreground">
                             {parseInt(priceItem.oldPrice).toLocaleString()}₽
                           </span>
