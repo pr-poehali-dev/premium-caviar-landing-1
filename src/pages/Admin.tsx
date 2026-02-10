@@ -322,7 +322,7 @@ const Admin = () => {
             ) : (
               <div className="space-y-4">
                 {orders.map((order) => (
-                  <Card key={order.id} className="p-6">
+                  <Card key={order.id} className="p-6 bg-blue-50 border-blue-200">
                     <div className="grid md:grid-cols-4 gap-4 items-center">
                       <div>
                         <p className="text-sm text-slate-500">Имя</p>
