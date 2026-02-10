@@ -110,8 +110,13 @@ const ProductEditor = ({
             id="price"
             type="number"
             value={product.price}
-            onChange={(e) => onUpdateProduct({ ...product, price: e.target.value })}
+            onChange={(e) => {
+              const value = e.target.value.replace(/[^\d]/g, '');
+              onUpdateProduct({ ...product, price: value });
+            }}
             placeholder="Цена"
+            min="0"
+            step="1"
           />
         </div>
 
