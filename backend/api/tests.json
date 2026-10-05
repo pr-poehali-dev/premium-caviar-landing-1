@@ -1,0 +1,9 @@
+{
+  "tests": [
+    {"name": "Get products", "method": "GET", "path": "/?resource=products", "expectedStatus": 200},
+    {"name": "Get news", "method": "GET", "path": "/?resource=news", "expectedStatus": 200},
+    {"name": "Orders require auth", "method": "GET", "path": "/?resource=orders", "expectedStatus": 401},
+    {"name": "Reject empty order", "method": "POST", "path": "/?resource=orders", "body": {"name": "", "phone": ""}, "expectedStatus": 400},
+    {"name": "Login wrong password", "method": "POST", "path": "/?resource=login", "headers": {"X-Admin-Password": "wrong"}, "expectedStatus": 401}
+  ]
+}

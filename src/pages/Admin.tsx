@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -8,316 +8,189 @@ import LoginForm from '@/components/admin/LoginForm';
 import OrdersList from '@/components/admin/OrdersList';
 import ProductsList from '@/components/admin/ProductsList';
 import ProductEditor from '@/components/admin/ProductEditor';
+import NewsManager from '@/components/admin/NewsManager';
+import {
+  api,
+  getAdminPassword,
+  setAdminPassword,
+  clearAdminPassword,
+  type Product,
+  type Order,
+  type NewsItem,
+} from '@/lib/api';
 
-const ADMIN_PASSWORD = 'EC2|5{Id4o8cWV0gNLTM';
-
-interface Product {
-  id: string;
-  title: string;
-  description: string;
-  fullDescription?: string;
-  image: string;
-  price: string;
-  promo?: {
-    enabled: boolean;
-    prices: { condition: string; price: string; oldPrice: string }[];
-  };
-}
-
-interface Order {
-  id: number;
-  name: string;
-  phone: string;
-  created_at: string;
-}
+type Tab = 'products' | 'news' | 'orders';
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [tab, setTab] = useState<Tab>('products');
   const [products, setProducts] = useState<Product[]>([]);
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isUploading, setIsUploading] = useState(false);
+  const [news, setNews] = useState<NewsItem[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
-  const [showOrders, setShowOrders] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [notice, setNotice] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const savedAuth = sessionStorage.getItem('adminAuth');
-    if (savedAuth === 'true') {
-      setIsAuthenticated(true);
-      loadProducts();
-      loadOrders();
-    }
+  const notify = useCallback((type: 'success' | 'error', message: string) => {
+    setNotice({ type, message });
+    setTimeout(() => setNotice(null), type === 'error' ? 4000 : 2500);
   }, []);
+
+  const loadAll = useCallback(async () => {
+    try {
+      const [p, n, o] = await Promise.all([api.getProducts(), api.getNews(), api.getOrders()]);
+      setProducts(p);
+      setNews(n);
+      setOrders(o);
+    } catch (e) {
+      notify('error', (e as Error).message);
+    }
+  }, [notify]);
 
   const loadOrders = async () => {
     try {
-      const response = await fetch('https://functions.poehali.dev/018bdb2f-504b-49c5-a0c8-8511cab7f093');
-      const data = await response.json();
-      if (response.ok) {
-        setOrders(data.orders);
-      }
-    } catch (error) {
-      console.error('Failed to load orders:', error);
+      setOrders(await api.getOrders());
+    } catch (e) {
+      notify('error', (e as Error).message);
     }
   };
 
-  const handleDeleteOrder = async (orderId: number) => {
-    if (!confirm('Вы уверены, что хотите удалить эту заявку?')) return;
-
-    try {
-      const response = await fetch('https://functions.poehali.dev/6abdd15a-c1f2-4b06-9389-69dfc035ff9e', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id: orderId }),
-      });
-
-      if (response.ok) {
-        setOrders(orders.filter(order => order.id !== orderId));
-        setShowSuccess(true);
-        setTimeout(() => setShowSuccess(false), 2000);
+  useEffect(() => {
+    const saved = getAdminPassword();
+    if (!saved) return;
+    api.login(saved).then((ok) => {
+      if (ok) {
+        setIsAuthenticated(true);
+        loadAll();
       } else {
-        setErrorMessage('Ошибка при удалении заявки');
-        setShowError(true);
-        setTimeout(() => setShowError(false), 3000);
+        clearAdminPassword();
       }
-    } catch (error) {
-      setErrorMessage('Ошибка при удалении заявки');
-      setShowError(true);
-      setTimeout(() => setShowError(false), 3000);
-    }
-  };
+    });
+  }, [loadAll]);
 
-  const loadProducts = () => {
-    const savedProducts = localStorage.getItem('products');
-    if (savedProducts) {
-      setProducts(JSON.parse(savedProducts));
-    } else {
-      const defaultProducts: Product[] = [
-        {
-          id: '1',
-          title: 'Икра осетра',
-          description: 'Черная зернистая малосольная икра без консервантов. Упакована в железные банки под резинкой по 125 и 250 грамм.',
-          image: 'https://cdn.poehali.dev/files/5314803716072344646.jpg',
-          price: '56000',
-        },
-        {
-          id: '2',
-          title: 'Икра стерляди',
-          description: 'Черная зернистая малосольная икра без консервантов. Упакована в железные банки под резинкой по 125 и 250 грамм.',
-          image: 'https://cdn.poehali.dev/files/WhatsApp-Image-2023-11-24-at-22.38.04.jpeg',
-          price: '48000',
-          promo: {
-            enabled: true,
-            prices: [
-              { condition: 'При покупке менее 1 кг', price: '44000', oldPrice: '48000' },
-              { condition: 'При покупке более 1 кг', price: '42000', oldPrice: '48000' },
-              { condition: 'При покупке более 3 кг', price: '40000', oldPrice: '48000' },
-            ],
-          },
-        },
-        {
-          id: '3',
-          title: 'Осетр речной',
-          description: 'Охлаждённый или свежемороженый осетр',
-          image: 'https://cdn.poehali.dev/files/осетр%20свежий.jpg',
-          price: '2500',
-        },
-        {
-          id: '4',
-          title: 'Стерлядь речная',
-          description: 'Охлаждённая или свежемороженая стерлядь',
-          image: 'https://cdn.poehali.dev/files/стерлядь%20свежая.jpg',
-          price: '3000',
-        },
-        {
-          id: '5',
-          title: 'Осетр горячего копчения',
-          description: 'Деликатес горячего копчения',
-          image: 'https://cdn.poehali.dev/files/Осетр%20гор%20коп.jpg',
-          price: '4500',
-        },
-        {
-          id: '6',
-          title: 'Стерлядь горячего копчения',
-          description: 'Деликатес горячего копчения',
-          image: 'https://cdn.poehali.dev/files/стерлядь%20гор%20коп%201.jpg',
-          price: '5500',
-        },
-        {
-          id: '7',
-          title: 'Балык-книжка Осетровый холодного копчения',
-          description: 'Балык холодного копчения',
-          image: 'https://cdn.poehali.dev/files/балык%20книжка.jpg',
-          price: '8500',
-        },
-      ];
-      setProducts(defaultProducts);
-      localStorage.setItem('products', JSON.stringify(defaultProducts));
-    }
-  };
-
-  const handleLogin = (password: string) => {
-    if (password === ADMIN_PASSWORD) {
+  const handleLogin = async (password: string) => {
+    const ok = await api.login(password);
+    if (ok) {
+      setAdminPassword(password);
       setIsAuthenticated(true);
-      sessionStorage.setItem('adminAuth', 'true');
-      loadProducts();
-      loadOrders();
+      loadAll();
     } else {
-      setErrorMessage('Неверный пароль');
-      setShowError(true);
-      setTimeout(() => setShowError(false), 3000);
+      notify('error', 'Неверный пароль');
     }
   };
 
   const handleLogout = () => {
+    clearAdminPassword();
     setIsAuthenticated(false);
-    sessionStorage.removeItem('adminAuth');
     navigate('/');
   };
 
-  const handleSaveProduct = () => {
+  const handleSelectProduct = (product: Product) => {
+    setEditingProduct({
+      ...product,
+      fullDescription: product.fullDescription || productDescriptions[product.title] || '',
+    });
+  };
+
+  const handleSaveProduct = async () => {
     if (!editingProduct) return;
-
-    const updatedProducts = products.map((p) =>
-      p.id === editingProduct.id ? editingProduct : p
-    );
-    setProducts(updatedProducts);
-    localStorage.setItem('products', JSON.stringify(updatedProducts));
-    setEditingProduct(null);
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 2000);
+    setIsSaving(true);
+    try {
+      const saved = await api.updateProduct(editingProduct);
+      setProducts((prev) => prev.map((p) => (p.id === saved.id ? saved : p)));
+      setEditingProduct(saved);
+      notify('success', 'Товар сохранён');
+    } catch (e) {
+      notify('error', (e as Error).message);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
-  const handleAddProduct = () => {
-    const newProduct: Product = {
-      id: Date.now().toString(),
-      title: 'Новый товар',
-      description: 'Описание товара',
-      fullDescription: '',
-      image: 'https://cdn.poehali.dev/files/placeholder.jpg',
-      price: '1000',
-    };
-    const updatedProducts = [...products, newProduct];
-    setProducts(updatedProducts);
-    localStorage.setItem('products', JSON.stringify(updatedProducts));
-    setEditingProduct(newProduct);
+  const handleAddProduct = async () => {
+    try {
+      const created = await api.createProduct({ title: 'Новый товар', description: '', price: '1000' });
+      setProducts((prev) => [...prev, created]);
+      setEditingProduct(created);
+    } catch (e) {
+      notify('error', (e as Error).message);
+    }
   };
 
-  const handleDeleteProduct = (id: string) => {
+  const handleDeleteProduct = async (id: string) => {
     if (!confirm('Вы уверены, что хотите удалить этот товар?')) return;
-    const updatedProducts = products.filter((p) => p.id !== id);
-    setProducts(updatedProducts);
-    localStorage.setItem('products', JSON.stringify(updatedProducts));
-    setEditingProduct(null);
+    try {
+      await api.deleteProduct(id);
+      setProducts((prev) => prev.filter((p) => p.id !== id));
+      setEditingProduct(null);
+      notify('success', 'Товар удалён');
+    } catch (e) {
+      notify('error', (e as Error).message);
+    }
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    e.target.value = '';
     if (!file) return;
-
-    if (!file.type.startsWith('image/')) {
-      setErrorMessage('Пожалуйста, выберите файл изображения');
-      setShowError(true);
-      setTimeout(() => setShowError(false), 3000);
-      return;
-    }
-
-    if (file.size > 5 * 1024 * 1024) {
-      setErrorMessage('Размер файла не должен превышать 5 МБ');
-      setShowError(true);
-      setTimeout(() => setShowError(false), 3000);
-      return;
-    }
-
     setIsUploading(true);
-
     try {
-      const reader = new FileReader();
-      reader.onload = async (event) => {
-        const base64Image = event.target?.result as string;
-
-        const response = await fetch('https://functions.poehali.dev/9b246b55-e84a-4a36-ae0c-04366201b926', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            image: base64Image,
-            filename: file.name,
-          }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok && editingProduct) {
-          setEditingProduct({
-            ...editingProduct,
-            image: data.url,
-          });
-          setShowSuccess(true);
-          setTimeout(() => setShowSuccess(false), 2000);
-        } else {
-          setErrorMessage(data.error || 'Ошибка загрузки изображения');
-          setShowError(true);
-          setTimeout(() => setShowError(false), 3000);
-        }
-      };
-
-      reader.readAsDataURL(file);
-    } catch (error) {
-      setErrorMessage('Ошибка загрузки изображения');
-      setShowError(true);
-      setTimeout(() => setShowError(false), 3000);
+      const url = await api.uploadImage(file, 'products');
+      setEditingProduct((prev) => (prev ? { ...prev, image: url } : prev));
+      notify('success', 'Фото загружено — нажмите «Сохранить изменения»');
+    } catch (err) {
+      notify('error', (err as Error).message);
     } finally {
       setIsUploading(false);
     }
   };
 
-  const handleSelectProduct = (product: Product) => {
-    let priceText = product.price;
-    
-    if (product.promo?.enabled && product.promo.prices.length > 0) {
-      priceText = product.promo.prices
-        .map(p => `${p.condition}: ${parseInt(p.price).toLocaleString('ru-RU')}₽/кг (было ${parseInt(p.oldPrice).toLocaleString('ru-RU')}₽)`)
-        .join('\n');
+  const handleUpdateOrder = async (order: Order) => {
+    try {
+      const saved = await api.updateOrder(order);
+      setOrders((prev) => prev.map((o) => (o.id === saved.id ? saved : o)));
+      notify('success', 'Заявка обновлена');
+    } catch (e) {
+      notify('error', (e as Error).message);
     }
-    
-    const productWithDescription = {
-      ...product,
-      fullDescription: product.fullDescription || productDescriptions[product.title] || '',
-      price: priceText
-    };
-    setEditingProduct(productWithDescription);
+  };
+
+  const handleDeleteOrder = async (id: number) => {
+    if (!confirm('Вы уверены, что хотите удалить эту заявку?')) return;
+    try {
+      await api.deleteOrder(id);
+      setOrders((prev) => prev.filter((o) => o.id !== id));
+      notify('success', 'Заявка удалена');
+    } catch (e) {
+      notify('error', (e as Error).message);
+    }
   };
 
   if (!isAuthenticated) {
-    return (
-      <LoginForm 
-        onLogin={handleLogin} 
-        showError={showError} 
-        errorMessage={errorMessage} 
-      />
-    );
+    return <LoginForm onLogin={handleLogin} showError={notice?.type === 'error'} errorMessage={notice?.message || ''} />;
   }
 
+  const newOrders = orders.filter((o) => o.status === 'new').length;
+  const tabs: { key: Tab; label: string; icon: string }[] = [
+    { key: 'products', label: 'Товары', icon: 'Package' },
+    { key: 'news', label: 'Новости', icon: 'Newspaper' },
+    { key: 'orders', label: `Заявки (${orders.length}${newOrders ? `, новых ${newOrders}` : ''})`, icon: 'Users' },
+  ];
+
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 text-slate-900">
       <div className="bg-white shadow-sm border-b sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="container mx-auto px-4 py-4 flex flex-wrap gap-3 justify-between items-center">
           <h1 className="text-2xl font-bold text-slate-900">Панель администратора</h1>
-          <div className="flex gap-3">
-            <Button 
-              onClick={() => setShowOrders(!showOrders)} 
-              variant={showOrders ? "default" : "outline"}
-            >
-              <Icon name="Users" size={18} className="mr-2" />
-              Заявки ({orders.length})
-            </Button>
+          <div className="flex flex-wrap gap-2">
+            {tabs.map((t) => (
+              <Button key={t.key} onClick={() => setTab(t.key)} variant={tab === t.key ? 'default' : 'outline'}>
+                <Icon name={t.icon} size={18} className="mr-2" />
+                {t.label}
+              </Button>
+            ))}
             <Button onClick={handleLogout} variant="outline">
               <Icon name="LogOut" size={18} className="mr-2" />
               Выйти
@@ -327,45 +200,51 @@ const Admin = () => {
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        {showOrders ? (
-          <OrdersList orders={orders} onDeleteOrder={handleDeleteOrder} />
-        ) : (
-          <div>
-        {showSuccess && (
-          <Alert className="mb-6 bg-green-50 border-green-200">
-            <Icon name="CheckCircle" size={18} className="text-green-600" />
-            <AlertDescription className="text-green-800 ml-2">
-              Изменения успешно сохранены!
+        {notice && (
+          <Alert
+            className={`mb-6 fixed bottom-6 right-6 z-50 max-w-sm shadow-lg ${
+              notice.type === 'success' ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
+            }`}
+          >
+            <Icon
+              name={notice.type === 'success' ? 'CheckCircle' : 'AlertCircle'}
+              size={18}
+              className={notice.type === 'success' ? 'text-green-600' : 'text-red-600'}
+            />
+            <AlertDescription className={`ml-2 ${notice.type === 'success' ? 'text-green-800' : 'text-red-800'}`}>
+              {notice.message}
             </AlertDescription>
           </Alert>
         )}
 
-        {showError && (
-          <Alert className="mb-6 bg-red-50 border-red-200">
-            <Icon name="AlertCircle" size={18} className="text-red-600" />
-            <AlertDescription className="text-red-800 ml-2">
-              {errorMessage}
-            </AlertDescription>
-          </Alert>
+        {tab === 'orders' && (
+          <OrdersList
+            orders={orders}
+            onUpdateOrder={handleUpdateOrder}
+            onDeleteOrder={handleDeleteOrder}
+            onRefresh={loadOrders}
+          />
         )}
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          <ProductsList 
-            products={products}
-            editingProduct={editingProduct}
-            onSelectProduct={handleSelectProduct}
-            onAddProduct={handleAddProduct}
-          />
+        {tab === 'news' && <NewsManager news={news} onChange={setNews} notify={notify} />}
 
-          <ProductEditor 
-            product={editingProduct}
-            isUploading={isUploading}
-            onUpdateProduct={setEditingProduct}
-            onSaveProduct={handleSaveProduct}
-            onDeleteProduct={handleDeleteProduct}
-            onImageUpload={handleImageUpload}
-          />
-        </div>
+        {tab === 'products' && (
+          <div className="grid lg:grid-cols-2 gap-8">
+            <ProductsList
+              products={products}
+              editingProduct={editingProduct}
+              onSelectProduct={handleSelectProduct}
+              onAddProduct={handleAddProduct}
+            />
+            <ProductEditor
+              product={editingProduct}
+              isUploading={isUploading}
+              isSaving={isSaving}
+              onUpdateProduct={setEditingProduct}
+              onSaveProduct={handleSaveProduct}
+              onDeleteProduct={handleDeleteProduct}
+              onImageUpload={handleImageUpload}
+            />
           </div>
         )}
       </div>

@@ -8,19 +8,8 @@ import { useToast } from '@/hooks/use-toast';
 import { Link } from 'react-router-dom';
 import ProductModal from '@/components/ProductModal';
 import { productDescriptions } from '@/data/products';
-
-interface Product {
-  id: string;
-  title: string;
-  description: string;
-  fullDescription?: string;
-  image: string;
-  price: string;
-  promo?: {
-    enabled: boolean;
-    prices: { condition: string; price: string; oldPrice: string }[];
-  };
-}
+import NewsSection from '@/components/NewsSection';
+import { api, type Product, type NewsItem } from '@/lib/api';
 
 const Index = () => {
   const [name, setName] = useState('');
@@ -30,85 +19,12 @@ const Index = () => {
   const [selectedProduct, setSelectedProduct] = useState<{ title: string; description: string; image: string } | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
+  const [news, setNews] = useState<NewsItem[]>([]);
   const { toast } = useToast();
 
   useEffect(() => {
-    const loadProducts = () => {
-      const saved = localStorage.getItem('products');
-      if (saved) {
-        setProducts(JSON.parse(saved));
-      } else {
-        const defaults: Product[] = [
-          {
-            id: '1',
-            title: 'Икра осетра',
-            description: 'Черная зернистая малосольная икра без консервантов. Упакована в железные банки под резинкой по 125 и 250 грамм.',
-            image: 'https://cdn.poehali.dev/files/5314803716072344646.jpg',
-            price: '56000',
-          },
-          {
-            id: '2',
-            title: 'Икра стерляди',
-            description: 'Черная зернистая малосольная икра без консервантов. Упакована в железные банки под резинкой по 125 и 250 грамм.',
-            image: 'https://cdn.poehali.dev/files/WhatsApp-Image-2023-11-24-at-22.38.04.jpeg',
-            price: '48000',
-            promo: {
-              enabled: true,
-              prices: [
-                { condition: 'При покупке менее 1 кг', price: '44000', oldPrice: '48000' },
-                { condition: 'При покупке более 1 кг', price: '42000', oldPrice: '48000' },
-                { condition: 'При покупке более 3 кг', price: '40000', oldPrice: '48000' },
-              ],
-            },
-          },
-          {
-            id: '3',
-            title: 'Осетр речной',
-            description: 'Охлаждённый или свежемороженый осетр',
-            image: 'https://cdn.poehali.dev/files/осетр%20свежий.jpg',
-            price: '2500',
-          },
-          {
-            id: '4',
-            title: 'Стерлядь речная',
-            description: 'Охлаждённая или свежемороженая стерлядь',
-            image: 'https://cdn.poehali.dev/files/5314803716072344648.jpg',
-            price: '3000',
-          },
-          {
-            id: '5',
-            title: 'Осетр горячего копчения',
-            description: 'Деликатес горячего копчения',
-            image: 'https://cdn.poehali.dev/files/бгбх.jpg',
-            price: '4500',
-          },
-          {
-            id: '6',
-            title: 'Стерлядь горячего копчения',
-            description: 'Деликатес горячего копчения',
-            image: 'https://cdn.poehali.dev/files/стерлядь%20гор%20коп%201.jpg',
-            price: '5500',
-          },
-          {
-            id: '7',
-            title: 'Балык-книжка Осетровый холодного копчения',
-            description: 'Балык холодного копчения',
-            image: 'https://cdn.poehali.dev/files/9c0d4146-c300-40a2-b66e-91bd6a386faf.jpg',
-            price: '8500',
-          },
-        ];
-        setProducts(defaults);
-        localStorage.setItem('products', JSON.stringify(defaults));
-      }
-    };
-
-    loadProducts();
-
-    const handleStorageChange = () => {
-      loadProducts();
-    };
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    api.getProducts().then(setProducts).catch(() => setProducts([]));
+    api.getNews().then(setNews).catch(() => setNews([]));
   }, []);
 
   const handleProductClick = (product: Product) => {
@@ -155,35 +71,15 @@ const Index = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('https://functions.poehali.dev/ee5f99f2-50ce-4388-9019-c03f40d677f6', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, phone })
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        toast({
-          title: 'Успешно!',
-          description: data.message,
-        });
-        setName('');
-        setPhone('');
-        setAgreed(false);
-      } else {
-        toast({
-          title: 'Ошибка',
-          description: data.error || 'Что-то пошло не так',
-          variant: 'destructive'
-        });
-      }
+      const data = await api.submitOrder(name, phone);
+      toast({ title: 'Успешно!', description: data.message });
+      setName('');
+      setPhone('');
+      setAgreed(false);
     } catch (error) {
       toast({
         title: 'Ошибка',
-        description: 'Не удалось отправить заявку',
+        description: (error as Error).message || 'Не удалось отправить заявку',
         variant: 'destructive'
       });
     } finally {
@@ -236,6 +132,8 @@ const Index = () => {
         </div>
       </section>
 
+      <NewsSection news={news} />
+
       <section className="py-20 px-4 bg-card">
         <div className="container mx-auto max-w-7xl">
           <h2 className="text-5xl md:text-6xl font-bold text-center mb-16 text-primary">
@@ -268,9 +166,9 @@ const Index = () => {
                       {product.promo.prices.map((priceItem, idx) => (
                         <p key={idx}>
                           • {priceItem.condition}:{' '}
-                          <span className="font-bold text-accent">46000</span>{' '}
+                          <span className="font-bold text-accent">{Number(priceItem.price).toLocaleString('ru-RU')}₽</span>{' '}
                           <span className="line-through text-muted-foreground">
-                            {parseInt(priceItem.oldPrice).toLocaleString()}₽
+                            {Number(priceItem.oldPrice).toLocaleString('ru-RU')}₽
                           </span>
                         </p>
                       ))}
@@ -279,9 +177,9 @@ const Index = () => {
                 ) : (
                   <div className="bg-muted p-6 rounded-2xl">
                     <div className="text-2xl font-bold text-primary whitespace-pre-line">
-                      {isNaN(Number(product.price)) 
-                        ? product.price 
-                        : `${parseInt(product.price).toLocaleString()}₽/кг`}
+                      {isNaN(Number(product.price)) || !product.price
+                        ? product.price
+                        : `${Number(product.price).toLocaleString('ru-RU')}₽/кг`}
                     </div>
                   </div>
                 )}
