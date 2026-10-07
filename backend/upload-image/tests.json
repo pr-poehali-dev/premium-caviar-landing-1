@@ -1,0 +1,6 @@
+{
+  "tests": [
+    {"name": "Requires auth", "method": "POST", "path": "/", "body": {"image": "data:image/png;base64,AAAA"}, "expectedStatus": 401},
+    {"name": "Wrong method", "method": "GET", "path": "/", "expectedStatus": 405}
+  ]
+}

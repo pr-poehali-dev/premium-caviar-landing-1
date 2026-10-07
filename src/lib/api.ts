@@ -1,6 +1,7 @@
 import func2url from '../../backend/func2url.json';
 
 const API_URL = (func2url as Record<string, string>).api;
+const UPLOAD_URL = (func2url as Record<string, string>)['upload-image'];
 const PASSWORD_KEY = 'adminPassword';
 
 export interface PromoPrice {
@@ -80,10 +81,20 @@ export const api = {
       if (!file.type.startsWith('image/')) return reject(new Error('Выберите файл изображения'));
       if (file.size > 5 * 1024 * 1024) return reject(new Error('Размер файла не должен превышать 5 МБ'));
       const reader = new FileReader();
-      reader.onload = () =>
-        request<{ url: string }>('upload', 'POST', { image: reader.result, filename: file.name, folder })
-          .then((d) => resolve(d.url))
-          .catch(reject);
+      reader.onload = async () => {
+        try {
+          const res = await fetch(UPLOAD_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Admin-Password': getAdminPassword() },
+            body: JSON.stringify({ image: reader.result, folder }),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) throw new Error(data.error || 'Ошибка загрузки фото');
+          resolve(data.url);
+        } catch (e) {
+          reject(e);
+        }
+      };
       reader.onerror = () => reject(new Error('Не удалось прочитать файл'));
       reader.readAsDataURL(file);
     }),
