@@ -186,12 +186,18 @@ const Admin = () => {
           <h1 className="text-2xl font-bold text-slate-900">Панель администратора</h1>
           <div className="flex flex-wrap gap-2">
             {tabs.map((t) => (
-              <Button key={t.key} onClick={() => setTab(t.key)} variant={tab === t.key ? 'default' : 'outline'}>
+              <Button
+                key={t.key}
+                onClick={() => setTab(t.key)}
+                className={`text-white hover:text-white ${
+                  tab === t.key ? 'bg-blue-600 hover:bg-blue-700' : 'bg-slate-700 hover:bg-slate-800'
+                }`}
+              >
                 <Icon name={t.icon} size={18} className="mr-2" />
                 {t.label}
               </Button>
             ))}
-            <Button onClick={handleLogout} variant="outline">
+            <Button onClick={handleLogout} className="bg-slate-700 hover:bg-slate-800 text-white hover:text-white">
               <Icon name="LogOut" size={18} className="mr-2" />
               Выйти
             </Button>
