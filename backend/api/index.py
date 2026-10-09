@@ -119,7 +119,7 @@ def handle_products(method: str, body: dict, params: dict, admin: bool) -> dict:
 def handle_news(method: str, body: dict, params: dict, admin: bool) -> dict:
     t = f'{SCHEMA}.news'
     if method == 'GET':
-        where = '' if admin else 'WHERE is_published = TRUE'
+        where = '' if (admin and params.get('all') == '1') else 'WHERE is_published = TRUE'
         rows = query(f'SELECT * FROM {t} {where} ORDER BY created_at DESC, id DESC')
         return resp(200, {'news': [news_out(r) for r in rows]})
     if not admin:

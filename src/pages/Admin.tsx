@@ -40,7 +40,7 @@ const Admin = () => {
 
   const loadAll = useCallback(async () => {
     try {
-      const [p, n, o] = await Promise.all([api.getProducts(), api.getNews(), api.getOrders()]);
+      const [p, n, o] = await Promise.all([api.getProducts(), api.getAllNews(), api.getOrders()]);
       setProducts(p);
       setNews(n);
       setOrders(o);

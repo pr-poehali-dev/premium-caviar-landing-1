@@ -64,7 +64,8 @@ export const api = {
   updateProduct: (p: Product) => request<{ product: Product }>('products', 'PUT', p).then((d) => d.product),
   deleteProduct: (id: string) => request('products', 'DELETE', undefined, `&id=${id}`),
 
-  getNews: () => request<{ news: NewsItem[] }>('news').then((d) => d.news),
+  getNews: () => request<{ news: NewsItem[] }>('news').then((d) => d.news.filter((n) => n.is_published)),
+  getAllNews: () => request<{ news: NewsItem[] }>('news', 'GET', undefined, '&all=1').then((d) => d.news),
   createNews: (n: Partial<NewsItem>) => request<{ item: NewsItem }>('news', 'POST', n).then((d) => d.item),
   updateNews: (n: NewsItem) => request<{ item: NewsItem }>('news', 'PUT', n).then((d) => d.item),
   deleteNews: (id: number) => request('news', 'DELETE', undefined, `&id=${id}`),
