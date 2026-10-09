@@ -138,6 +138,13 @@ const NewsManager = ({ news, onChange, notify }: NewsManagerProps) => {
                 <div className="space-y-2">
                   <Input type="file" accept="image/*" onChange={handleImage} disabled={uploading} className="max-w-xs" />
                   {uploading && <p className="text-sm text-slate-500">Загрузка...</p>}
+                  <Input
+                    type="url"
+                    placeholder="Или вставьте ссылку на фото: https://..."
+                    value={editing.image || ''}
+                    onChange={(e) => setEditing({ ...editing, image: e.target.value.trim() })}
+                    className="max-w-xs"
+                  />
                   {editing.image && (
                     <Button variant="ghost" size="sm" onClick={() => setEditing({ ...editing, image: '' })}>
                       Убрать фото
