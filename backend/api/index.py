@@ -1,6 +1,8 @@
 import json
 import os
 import base64
+import uuid
+import boto3
 import psycopg2
 import psycopg2.extras
 
@@ -171,6 +173,44 @@ def handle_orders(method: str, body: dict, params: dict, admin: bool) -> dict:
     return resp(405, {'error': 'Method not allowed'})
 
 
+ALLOWED_TYPES = {'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif'}
+
+
+def handle_upload(method: str, body: dict, admin: bool) -> dict:
+    if method != 'POST':
+        return resp(405, {'error': 'Method not allowed'})
+    if not admin:
+        return resp(401, {'error': 'Нужна авторизация'})
+    image = body.get('image') or ''
+    if not image:
+        return resp(400, {'error': 'Нет изображения'})
+    content_type = 'image/jpeg'
+    if image.startswith('data:') and ';' in image:
+        content_type = image[5:image.index(';')]
+    if content_type not in ALLOWED_TYPES:
+        return resp(400, {'error': 'Поддерживаются только JPG, PNG, WEBP и GIF'})
+    if ',' in image:
+        image = image.split(',', 1)[1]
+    data = base64.b64decode(image)
+    if len(data) > 5 * 1024 * 1024:
+        return resp(400, {'error': 'Размер файла не должен превышать 5 МБ'})
+    folder = body.get('folder') if body.get('folder') in ('products', 'news') else 'uploads'
+    key = f'{folder}/{uuid.uuid4().hex}.{ALLOWED_TYPES[content_type]}'
+    s3 = boto3.client(
+        's3',
+        endpoint_url='https://bucket.poehali.dev',
+        aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
+        aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],
+    )
+    try:
+        s3.put_object(Bucket='files', Key=key, Body=data, ContentType=content_type)
+    except Exception as e:
+        if '402' in str(e) or 'Payment Required' in str(e):
+            return resp(402, {'error': 'Хранилище файлов недоступно: закончился лимит тарифа'})
+        return resp(500, {'error': f'Не удалось загрузить фото: {e}'})
+    return resp(200, {'url': f"https://cdn.poehali.dev/projects/{os.environ['AWS_ACCESS_KEY_ID']}/bucket/{key}"})
+
+
 def handler(event: dict, context) -> dict:
     '''Единое API сайта: товары, новости, заявки и вход в админку'''
     method = event.get('httpMethod', 'GET')
@@ -191,6 +231,8 @@ def handler(event: dict, context) -> dict:
         return handle_products(method, body, params, admin)
     if resource == 'news':
         return handle_news(method, body, params, admin)
+    if resource == 'upload':
+        return handle_upload(method, body, admin)
     if resource == 'orders':
         return handle_orders(method, body, params, admin)
     return resp(404, {'error': 'Unknown resource'})

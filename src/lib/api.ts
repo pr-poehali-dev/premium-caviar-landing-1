@@ -1,7 +1,6 @@
 import func2url from '../../backend/func2url.json';
 
 const API_URL = (func2url as Record<string, string>).api;
-const UPLOAD_URL = (func2url as Record<string, string>)['upload-image'];
 const PASSWORD_KEY = 'adminPassword';
 
 export interface PromoPrice {
@@ -83,7 +82,7 @@ export const api = {
       const reader = new FileReader();
       reader.onload = async () => {
         try {
-          const res = await fetch(UPLOAD_URL, {
+          const res = await fetch(`${API_URL}?resource=upload`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-Admin-Password': getAdminPassword() },
             body: JSON.stringify({ image: reader.result, folder }),
