@@ -4,6 +4,8 @@
     {"name": "Get news", "method": "GET", "path": "/?resource=news", "expectedStatus": 200},
     {"name": "Orders require auth", "method": "GET", "path": "/?resource=orders", "expectedStatus": 401},
     {"name": "Reject empty order", "method": "POST", "path": "/?resource=orders", "body": {"name": "", "phone": ""}, "expectedStatus": 400},
+    {"name": "Get content", "method": "GET", "path": "/?resource=content", "expectedStatus": 200},
+    {"name": "Content update requires auth", "method": "PUT", "path": "/?resource=content", "body": {"content": {}}, "expectedStatus": 401},
     {"name": "Login wrong password", "method": "POST", "path": "/?resource=login", "headers": {"X-Admin-Password": "wrong"}, "expectedStatus": 401}
   ]
 }

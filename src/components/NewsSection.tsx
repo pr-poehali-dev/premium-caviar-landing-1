@@ -7,12 +7,14 @@ import Reveal from '@/components/Reveal';
 
 interface NewsSectionProps {
   news: NewsItem[];
+  eyebrow?: string;
+  title?: string;
 }
 
 const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
 
-const NewsSection = ({ news }: NewsSectionProps) => {
+const NewsSection = ({ news, eyebrow = 'Из хозяйства', title = 'Новости' }: NewsSectionProps) => {
   const [opened, setOpened] = useState<NewsItem | null>(null);
 
   if (news.length === 0) return null;
@@ -21,8 +23,8 @@ const NewsSection = ({ news }: NewsSectionProps) => {
     <section id="news" className="py-16 md:py-32 px-4 bg-card/30 border-y border-primary/10">
       <div className="container mx-auto max-w-7xl">
         <Reveal className="text-center mb-10 md:mb-16">
-          <p className="eyebrow mb-4">Из хозяйства</p>
-          <h2 className="text-4xl sm:text-5xl md:text-7xl font-semibold text-gold">Новости</h2>
+          <p className="eyebrow mb-4">{eyebrow}</p>
+          <h2 className="text-4xl sm:text-5xl md:text-7xl font-semibold text-gold">{title}</h2>
           <div className="gold-divider mx-auto mt-8" />
         </Reveal>
 

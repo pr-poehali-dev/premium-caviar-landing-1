@@ -9,6 +9,7 @@ import OrdersList from '@/components/admin/OrdersList';
 import ProductsList from '@/components/admin/ProductsList';
 import ProductEditor from '@/components/admin/ProductEditor';
 import NewsManager from '@/components/admin/NewsManager';
+import ContentEditor from '@/components/admin/ContentEditor';
 import {
   api,
   getAdminPassword,
@@ -19,7 +20,7 @@ import {
   type NewsItem,
 } from '@/lib/api';
 
-type Tab = 'products' | 'news' | 'orders';
+type Tab = 'products' | 'news' | 'orders' | 'content';
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -176,6 +177,7 @@ const Admin = () => {
   const tabs: { key: Tab; label: string; icon: string }[] = [
     { key: 'products', label: 'Товары', icon: 'Package' },
     { key: 'news', label: 'Новости', icon: 'Newspaper' },
+    { key: 'content', label: 'Тексты сайта', icon: 'Type' },
     { key: 'orders', label: `Заявки (${orders.length}${newOrders ? `, новых ${newOrders}` : ''})`, icon: 'Users' },
   ];
 
@@ -233,6 +235,8 @@ const Admin = () => {
         )}
 
         {tab === 'news' && <NewsManager news={news} onChange={setNews} notify={notify} />}
+
+        {tab === 'content' && <ContentEditor notify={notify} />}
 
         {tab === 'products' && (
           <div className="grid lg:grid-cols-2 gap-8">

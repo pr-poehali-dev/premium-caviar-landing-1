@@ -173,6 +173,26 @@ def handle_orders(method: str, body: dict, params: dict, admin: bool) -> dict:
     return resp(405, {'error': 'Method not allowed'})
 
 
+def handle_content(method: str, body: dict, admin: bool) -> dict:
+    t = f'{SCHEMA}.site_content'
+    if method == 'GET':
+        row = query(f"SELECT value FROM {t} WHERE key = 'home'", None, 'one')
+        return resp(200, {'content': row['value'] if row else {}})
+    if not admin:
+        return resp(401, {'error': 'Нужна авторизация'})
+    if method == 'PUT':
+        content = body.get('content')
+        if not isinstance(content, dict):
+            return resp(400, {'error': 'Неверный формат текстов'})
+        data = json.dumps(content, ensure_ascii=False)
+        row = query(
+            f"INSERT INTO {t} (key, value, updated_at) VALUES ('home', %s::jsonb, NOW()) "
+            f"ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = NOW() RETURNING value",
+            (data,), 'one')
+        return resp(200, {'content': row['value']})
+    return resp(405, {'error': 'Method not allowed'})
+
+
 ALLOWED_TYPES = {'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif'}
 
 
@@ -235,4 +255,6 @@ def handler(event: dict, context) -> dict:
         return handle_upload(method, body, admin)
     if resource == 'orders':
         return handle_orders(method, body, params, admin)
+    if resource == 'content':
+        return handle_content(method, body, admin)
     return resp(404, {'error': 'Unknown resource'})

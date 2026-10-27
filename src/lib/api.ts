@@ -1,4 +1,5 @@
 import func2url from '../../backend/func2url.json';
+import { mergeContent, type SiteContent } from '@/lib/site-content';
 
 const API_URL = (func2url as Record<string, string>).api;
 const PASSWORD_KEY = 'adminPassword';
@@ -76,6 +77,10 @@ export const api = {
   getOrders: () => request<{ orders: Order[] }>('orders').then((d) => d.orders),
   updateOrder: (o: Order) => request<{ order: Order }>('orders', 'PUT', o).then((d) => d.order),
   deleteOrder: (id: number) => request('orders', 'DELETE', undefined, `&id=${id}`),
+
+  getContent: () => request<{ content: unknown }>('content').then((d) => mergeContent(d.content)),
+  saveContent: (content: SiteContent) =>
+    request<{ content: unknown }>('content', 'PUT', { content }).then((d) => mergeContent(d.content)),
 
   uploadImage: (file: File, folder: 'products' | 'news') =>
     new Promise<string>((resolve, reject) => {
