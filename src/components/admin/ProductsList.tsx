@@ -16,38 +16,44 @@ export const formatPrice = (price: string) =>
 const ProductsList = ({ products, editingProduct, onSelectProduct, onAddProduct }: ProductsListProps) => {
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-wrap justify-between items-center gap-3 mb-4 sm:mb-6">
         <h2 className="text-xl font-semibold text-slate-900">Список товаров</h2>
-        <Button onClick={onAddProduct} className="bg-green-600 hover:bg-green-700">
+        <Button onClick={onAddProduct} className="bg-green-600 hover:bg-green-700 text-white">
           <Icon name="Plus" size={18} className="mr-2" />
           Добавить товар
         </Button>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         {products.map((product) => (
           <Card
             key={product.id}
-            className={`p-4 cursor-pointer transition-all bg-blue-50 border-blue-200 ${
-              editingProduct?.id === product.id ? 'ring-2 ring-primary border-primary' : 'hover:shadow-md'
+            className={`p-3 sm:p-4 cursor-pointer transition-all border-white/10 ${
+              editingProduct?.id === product.id ? 'ring-2 ring-primary border-primary' : 'hover:border-primary/50'
             }`}
             onClick={() => onSelectProduct(product)}
           >
-            <div className="flex gap-4">
+            <div className="flex gap-3 sm:gap-4 items-center">
               {product.image ? (
-                <img src={product.image} alt={product.title} className="w-20 h-20 object-cover rounded" />
+                <img src={product.image} alt={product.title} className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-md shrink-0" />
               ) : (
-                <div className="w-20 h-20 rounded bg-slate-200" />
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-md bg-white/5 border border-white/10 shrink-0 flex items-center justify-center">
+                  <Icon name="Image" size={22} className="text-slate-500" />
+                </div>
               )}
               <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-slate-900">{product.title}</h3>
-                <p className="text-sm text-slate-600 line-clamp-2">{product.description}</p>
-                <p className="text-slate-900 font-semibold mt-1 truncate">
+                <h3 className="font-semibold text-slate-100 leading-snug break-words">{product.title}</h3>
+                {product.description && (
+                  <p className="text-sm text-slate-400 line-clamp-1 sm:line-clamp-2">{product.description}</p>
+                )}
+                <p className="text-primary font-semibold mt-1 truncate text-sm sm:text-base">
                   {formatPrice(product.price)}
-                  {product.promo?.enabled && <span className="ml-2 text-xs text-red-600">АКЦИЯ</span>}
+                  {product.promo?.enabled && (
+                    <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-300 align-middle">АКЦИЯ</span>
+                  )}
                 </p>
               </div>
-              <Icon name="ChevronRight" size={20} className="text-slate-400" />
+              <Icon name="ChevronRight" size={20} className="text-slate-500 shrink-0" />
             </div>
           </Card>
         ))}

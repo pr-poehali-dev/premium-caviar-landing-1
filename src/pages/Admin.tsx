@@ -178,20 +178,23 @@ const Admin = () => {
     { key: 'products', label: 'Товары', icon: 'Package' },
     { key: 'news', label: 'Новости', icon: 'Newspaper' },
     { key: 'content', label: 'Тексты сайта', icon: 'Type' },
-    { key: 'orders', label: `Заявки (${orders.length}${newOrders ? `, новых ${newOrders}` : ''})`, icon: 'Users' },
+    { key: 'orders', label: newOrders ? `Заявки · ${newOrders} нов.` : `Заявки (${orders.length})`, icon: 'Users' },
   ];
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
-      <div className="bg-white shadow-sm border-b sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4 flex flex-wrap gap-3 justify-between items-center">
-          <h1 className="text-2xl font-bold text-slate-900">Панель администратора</h1>
-          <div className="flex flex-wrap gap-2">
+      <div className="bg-white shadow-sm border-b lg:sticky lg:top-0 z-10">
+        <div className="container mx-auto px-4 py-3 sm:py-4 flex flex-wrap gap-3 justify-between items-center">
+          <h1 className="text-xl sm:text-2xl font-bold text-slate-900">Панель администратора</h1>
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 w-full sm:w-auto">
             {tabs.map((t) => (
               <Button
                 key={t.key}
-                onClick={() => setTab(t.key)}
-                className={`text-white hover:text-white ${
+                onClick={() => {
+                  setTab(t.key);
+                  setEditingProduct(null);
+                }}
+                className={`text-white hover:text-white justify-start sm:justify-center h-11 sm:h-10 px-3 truncate ${
                   tab === t.key ? 'bg-blue-600 hover:bg-blue-700' : 'bg-slate-700 hover:bg-slate-800'
                 }`}
               >
@@ -199,7 +202,7 @@ const Admin = () => {
                 {t.label}
               </Button>
             ))}
-            <Button onClick={handleLogout} className="bg-slate-700 hover:bg-slate-800 text-white hover:text-white">
+            <Button onClick={handleLogout} className="bg-slate-700 hover:bg-slate-800 text-white hover:text-white justify-start sm:justify-center h-11 sm:h-10 px-3">
               <Icon name="LogOut" size={18} className="mr-2" />
               Выйти
             </Button>
@@ -207,10 +210,10 @@ const Admin = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {notice && (
           <Alert
-            className={`mb-6 fixed bottom-6 right-6 z-50 max-w-sm shadow-lg ${
+            className={`mb-6 fixed top-4 inset-x-4 sm:inset-x-auto sm:top-auto sm:bottom-6 sm:right-6 z-50 sm:max-w-sm shadow-lg ${
               notice.type === 'success' ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
             }`}
           >
@@ -239,13 +242,18 @@ const Admin = () => {
         {tab === 'content' && <ContentEditor notify={notify} />}
 
         {tab === 'products' && (
-          <div className="grid lg:grid-cols-2 gap-8">
-            <ProductsList
-              products={products}
-              editingProduct={editingProduct}
-              onSelectProduct={handleSelectProduct}
-              onAddProduct={handleAddProduct}
-            />
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
+            <div className={editingProduct ? 'hidden lg:block' : ''}>
+              <ProductsList
+                products={products}
+                editingProduct={editingProduct}
+                onSelectProduct={(p) => {
+                  handleSelectProduct(p);
+                  window.scrollTo({ top: 0 });
+                }}
+                onAddProduct={handleAddProduct}
+              />
+            </div>
             <ProductEditor
               product={editingProduct}
               isUploading={isUploading}
@@ -254,6 +262,7 @@ const Admin = () => {
               onSaveProduct={handleSaveProduct}
               onDeleteProduct={handleDeleteProduct}
               onImageUpload={handleImageUpload}
+              onClose={() => setEditingProduct(null)}
             />
           </div>
         )}
