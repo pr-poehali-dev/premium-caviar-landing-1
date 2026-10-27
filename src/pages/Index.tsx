@@ -15,7 +15,6 @@ import Hero from '@/components/Hero';
 import Marquee from '@/components/Marquee';
 import Reveal from '@/components/Reveal';
 import TiltCard from '@/components/TiltCard';
-import Stats from '@/components/Stats';
 import Features from '@/components/Features';
 import Story from '@/components/Story';
 import Steps from '@/components/Steps';
@@ -108,7 +107,6 @@ const Index = ({ initialProducts = [], initialNews = [] }: IndexProps) => {
       <SiteHeader />
       <Hero />
       <Marquee />
-      <Stats />
 
       <section id="products" className="py-16 md:py-32 px-4 relative">
         <div className="container mx-auto max-w-7xl">
