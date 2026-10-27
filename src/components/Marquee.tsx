@@ -11,7 +11,7 @@ const Marquee = () => (
   <div className="relative border-y border-primary/20 bg-card/60 py-4 md:py-5 overflow-hidden marquee-mask">
     <div className="marquee-track">
       {[...items, ...items].map((text, i) => (
-        <span key={i} className="flex items-center gap-8 px-4 shrink-0 font-display text-lg md:text-2xl italic text-foreground/80">
+        <span key={i} className="flex items-center gap-8 px-4 shrink-0 font-display text-lg md:text-2xl italic text-foreground/95">
           {text}
           <span className="text-primary text-sm not-italic">✦</span>
         </span>

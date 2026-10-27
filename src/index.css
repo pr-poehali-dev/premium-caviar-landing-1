@@ -22,7 +22,7 @@
     --secondary-foreground: 45 50% 90%;
 
     --muted: 225 25% 20%;
-    --muted-foreground: 45 20% 70%;
+    --muted-foreground: 42 25% 78%;
 
     --accent: 45 80% 55%;
     --accent-foreground: 225 40% 10%;
@@ -119,6 +119,11 @@ html, body {
 
 body {
   -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
 }
 
 img {
@@ -133,7 +138,8 @@ img {
 @layer base {
   h1, h2, h3, h4, h5, h6, .font-display {
     font-family: "Cormorant Garamond", "Playfair Display", serif;
-    letter-spacing: -0.01em;
+    font-weight: 600;
+    letter-spacing: 0;
   }
 }
 
@@ -343,6 +349,7 @@ img {
   }
 
   .grain::before {
+    display: none;
     content: "";
     position: fixed;
     inset: 0;
@@ -393,9 +400,8 @@ img {
 
   .tilt-card {
     position: relative;
-    transform-style: preserve-3d;
     transition: transform 0.5s cubic-bezier(.2,.8,.2,1), border-color 0.5s, box-shadow 0.6s;
-    will-change: transform;
+    backface-visibility: hidden;
   }
   .tilt-card:hover {
     border-color: hsl(var(--primary) / 0.55);

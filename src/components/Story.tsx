@@ -11,7 +11,7 @@ const Story = () => (
           Десять лет <span className="text-gold italic">на течении</span> Ахтубы
         </h2>
         <div className="gold-divider mx-auto mb-8 md:mb-10" />
-        <div className="space-y-5 text-base md:text-lg text-foreground/80 leading-relaxed">
+        <div className="space-y-5 text-base md:text-lg text-foreground/95 leading-relaxed">
           <p>
             В 2014 году мы спустили на воду первые садки. С тех пор лёд трижды ломал нашу садковую линию — и каждый раз мы
             восстанавливали её, наращивая стадо.

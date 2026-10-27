@@ -39,7 +39,7 @@ const SiteHeader = () => {
 
         <nav className="hidden md:flex items-center gap-8">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="nav-link text-sm uppercase tracking-[0.2em] text-foreground/80 hover:text-primary">
+            <a key={l.href} href={l.href} className="nav-link text-sm uppercase tracking-[0.2em] text-foreground/95 hover:text-primary">
               {l.label}
             </a>
           ))}

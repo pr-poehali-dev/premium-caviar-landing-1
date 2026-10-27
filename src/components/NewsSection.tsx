@@ -44,7 +44,7 @@ const NewsSection = ({ news }: NewsSectionProps) => {
                   {formatDate(item.created_at)}
                 </p>
                 <h3 className="text-xl sm:text-2xl font-semibold mb-3 text-primary">{item.title}</h3>
-                <p className="text-foreground/80 line-clamp-4 whitespace-pre-line flex-1">{item.content}</p>
+                <p className="text-foreground/95 line-clamp-4 whitespace-pre-line flex-1">{item.content}</p>
                 <span className="mt-4 text-primary font-semibold flex items-center gap-1">
                   Читать
                   <Icon name="ArrowRight" size={16} className="transition-transform duration-300 group-hover:translate-x-1" />

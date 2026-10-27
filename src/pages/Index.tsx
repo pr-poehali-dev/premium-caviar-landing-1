@@ -154,7 +154,7 @@ const Index = ({ initialProducts = [], initialNews = [] }: IndexProps) => {
                             <span className="font-display text-xl sm:text-2xl font-semibold text-gold">
                               {Number(priceItem.price).toLocaleString('ru-RU')}₽
                             </span>
-                            <span className="line-through text-muted-foreground/70 text-xs sm:text-sm">
+                            <span className="line-through text-muted-foreground text-xs sm:text-sm">
                               {Number(priceItem.oldPrice).toLocaleString('ru-RU')}₽
                             </span>
                           </p>

@@ -97,12 +97,12 @@ const Hero = () => {
         </div>
 
         <div className="hero-line mt-10 md:mt-12 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center text-base" style={{ animationDelay: '1.9s' }}>
-          <a href="tel:89275731273" className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+          <a href="tel:89275731273" className="flex items-center gap-3 text-foreground/95 hover:text-primary transition-colors">
             <Icon name="Phone" size={18} className="text-primary" />
             Валерий: 8 927 573 12 73
           </a>
           <span className="hidden sm:block w-px h-5 bg-primary/30" />
-          <a href="tel:89275607919" className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
+          <a href="tel:89275607919" className="flex items-center gap-3 text-foreground/95 hover:text-primary transition-colors">
             <Icon name="Phone" size={18} className="text-primary" />
             Любовь: 8 927 560 79 19
           </a>
