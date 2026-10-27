@@ -37,7 +37,8 @@ export interface Order {
   created_at: string;
 }
 
-export const getAdminPassword = () => sessionStorage.getItem(PASSWORD_KEY) || '';
+export const getAdminPassword = () =>
+  typeof sessionStorage === 'undefined' ? '' : sessionStorage.getItem(PASSWORD_KEY) || '';
 export const setAdminPassword = (p: string) => sessionStorage.setItem(PASSWORD_KEY, p);
 export const clearAdminPassword = () => sessionStorage.removeItem(PASSWORD_KEY);
 

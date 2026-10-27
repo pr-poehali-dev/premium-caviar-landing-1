@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
-import { Link } from 'react-router-dom';
+import { Link } from "@/lib/router-compat";
 
 const Privacy = () => {
   return (

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from "@/lib/router-compat";
 
 const SiteFooter = () => (
   <footer className="border-t border-primary/15 bg-card/40 py-12 px-4">

@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
-import { Link } from 'react-router-dom';
+import { Link } from "@/lib/router-compat";
 import ProductModal from '@/components/ProductModal';
 import { productDescriptions } from '@/data/products';
 import NewsSection from '@/components/NewsSection';
@@ -21,21 +21,26 @@ import Story from '@/components/Story';
 import Steps from '@/components/Steps';
 import ScrollProgress from '@/components/ScrollProgress';
 
-const Index = () => {
+interface IndexProps {
+  initialProducts?: Product[];
+  initialNews?: NewsItem[];
+}
+
+const Index = ({ initialProducts = [], initialNews = [] }: IndexProps) => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [agreed, setAgreed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<{ title: string; description: string; image: string } | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [news, setNews] = useState<NewsItem[]>([]);
+  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [news, setNews] = useState<NewsItem[]>(initialNews);
   const { toast } = useToast();
 
   useEffect(() => {
-    api.getProducts().then(setProducts).catch(() => setProducts([]));
-    api.getNews().then(setNews).catch(() => setNews([]));
-  }, []);
+    setProducts(initialProducts);
+    setNews(initialNews);
+  }, [initialProducts, initialNews]);
 
   const handleProductClick = (product: Product) => {
     const description = product.fullDescription || productDescriptions[product.title] || 'Описание недоступно';
