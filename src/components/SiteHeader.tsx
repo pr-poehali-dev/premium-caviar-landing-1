@@ -24,7 +24,7 @@ const SiteHeader = () => {
   return (
     <header
       className={cn(
-        'fixed top-0 inset-x-0 z-50 transition-all duration-500',
+        'site-header fixed top-0 inset-x-0 z-50 transition-[background-color,box-shadow,padding] duration-500',
         scrolled || open ? 'glass-header py-3' : 'py-3 md:py-5 bg-transparent'
       )}
     >
@@ -33,7 +33,7 @@ const SiteHeader = () => {
           <img
             src="/img/logo.webp"
             alt="ЭкоФиш+"
-            className={cn('w-auto transition-all duration-500 group-hover:scale-105', scrolled ? 'h-9 md:h-10' : 'h-10 md:h-12')}
+            className={cn('w-auto transition-all duration-500 md:group-hover:scale-105', scrolled ? 'h-10' : 'h-10 md:h-12')}
           />
         </Link>
 
@@ -51,7 +51,7 @@ const SiteHeader = () => {
         </a>
 
         <button
-          className="md:hidden text-primary p-2"
+          className="md:hidden text-primary p-2 -mr-2"
           onClick={() => setOpen((v) => !v)}
           aria-label="Меню"
         >

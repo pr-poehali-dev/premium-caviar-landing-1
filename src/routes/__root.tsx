@@ -110,7 +110,8 @@ export const Route = createRootRoute({
     head: () => ({
         meta: [
             {charSet: "utf-8"},
-            {name: "viewport", content: "width=device-width, initial-scale=1.0"},
+            {name: "viewport", content: "width=device-width, initial-scale=1.0, viewport-fit=cover"},
+            {name: "theme-color", content: "#0c111d"},
             {title: TITLE},
             {name: "description", content: DESCRIPTION},
             {property: "og:title", content: TITLE},
