@@ -71,8 +71,8 @@ const ProductEditor = ({
               />
               {isUploading && <p className="text-sm text-slate-500 mt-2">Загрузка изображения...</p>}
               <Input
-                type="url"
-                placeholder="Или вставьте ссылку на фото: https://..."
+                type="text"
+                placeholder="Или ссылка на фото: https://... или /photos/имя.jpg"
                 value={product.image || ''}
                 onChange={(e) => onUpdateProduct({ ...product, image: e.target.value.trim() })}
                 className="max-w-xs mt-2"

@@ -3,6 +3,7 @@
 User-agent: *
 Allow: /
 Disallow: /privacy
+Disallow: /admin
 
 # Основная карта сайта
 Sitemap: https://ekofish.poehali.app/sitemap.xml

@@ -12,28 +12,23 @@ const About = () => {
             <span>Вернуться на главную</span>
           </Link>
 
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center">
-              <Icon name="Fish" size={32} className="text-background" />
-            </div>
-            <div>
-              <h1 className="text-4xl font-bold text-primary">EcoFish</h1>
-              <p className="text-muted-foreground">Рыбное хозяйство</p>
-            </div>
+          <div className="flex flex-col items-center text-center gap-4 mb-12 animate-fade-in">
+            <img src="/img/logo.webp" alt="ЭкоФиш+" className="h-32 md:h-40 w-auto logo-float" />
+            <p className="eyebrow">Рыбное хозяйство · с 2013 года</p>
+            <h1 className="text-5xl md:text-6xl font-semibold text-gold">О нас</h1>
           </div>
 
-          <Card className="p-8 rounded-3xl bg-secondary border-border mb-8">
-            <h2 className="text-3xl font-bold mb-6 text-primary">О нас</h2>
-            
+          <Card className="glass-card p-6 md:p-10 rounded-[2rem] mb-8 animate-fade-in">
+                        
             <div className="mb-8">
               <img 
-                src="https://cdn.poehali.dev/files/20220913_191117.jpg" 
+                src="/img/about.jpg" 
                 alt="Рыбное хозяйство ЭкоФиш+"
-                className="w-full h-96 object-cover rounded-2xl"
+                className="w-full h-[28rem] object-cover rounded-[1.5rem]"
               />
             </div>
 
-            <div className="space-y-6 text-foreground leading-relaxed">
+            <div className="space-y-6 text-foreground/90 leading-relaxed text-lg">
               <p>
                 ООО «ЭкоФиш+» основано в 2013 году специально для выращивания осетровых видов рыб и черной икры в реке Ахтуба в Харабалинском районе Астраханской области. Почти год ушел на оформление разрешительной документации, водопользования. В апреле 2014 года на воду были спущены первые садки, закуплена молодь стерляди и осетра. Основой нового хозяйства послужила созданная раньше, в 2005 году, рыболовно-туристическая база «Сазаний угол», расположенная на левом берегу реки Ахтуба в 20 км от города Харабали.
               </p>

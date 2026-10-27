@@ -10,6 +10,11 @@ import ProductModal from '@/components/ProductModal';
 import { productDescriptions } from '@/data/products';
 import NewsSection from '@/components/NewsSection';
 import { api, type Product, type NewsItem } from '@/lib/api';
+import SiteHeader from '@/components/SiteHeader';
+import SiteFooter from '@/components/SiteFooter';
+import Hero from '@/components/Hero';
+import Marquee from '@/components/Marquee';
+import Reveal from '@/components/Reveal';
 
 const Index = () => {
   const [name, setName] = useState('');
@@ -88,163 +93,127 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <section className="relative min-h-screen flex items-center justify-center px-4 py-20 overflow-hidden">
-        <div 
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: `url('https://cdn.poehali.dev/files/d2e8c54f-396f-432a-a81b-2772b1d6842d.jpg')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            filter: 'brightness(0.4)'
-          }}
-        />
-        
-        <div className="container mx-auto max-w-6xl relative z-10 animate-fade-in">
-          <div className="text-center mb-12">
-            <img 
-              src="https://cdn.poehali.dev/files/16666.png" 
-              alt="ЭкоФиш+ логотип"
-              className="w-full max-w-[52rem] mx-auto mb-8"
-            />
-            <h2 className="text-4xl md:text-6xl font-semibold mb-6 text-foreground">Премиальная икра и рыба для особых моментов.</h2>
-            <p className="text-xl md:text-2xl mb-12 text-muted-foreground max-w-3xl mx-auto">
-              Премиальная икра с бережной доставкой до вашего стола. Осётр и Стерлядь. 
-              Идеально для праздника, ужина или особого подарка.
-            </p>
-            
-            <div className="flex flex-col gap-6 justify-center items-center text-lg">
-              <div className="flex flex-col sm:flex-row gap-6">
-                <a href="tel:89275731273" className="flex items-center gap-3 text-primary hover:text-accent transition-colors">
-                  <Icon name="Phone" size={24} />
-                  <span className="font-semibold">Валерий: 8 927 573 12 73</span>
-                </a>
-                <a href="tel:89275607919" className="flex items-center gap-3 text-primary hover:text-accent transition-colors">
-                  <Icon name="Phone" size={24} />
-                  <span className="font-semibold">Любовь: 8 927 560 79 19</span>
-                </a>
-              </div>
-              <Link to="/about" className="text-primary hover:text-accent transition-colors underline">
-                О нас
-              </Link>
-            </div>
+    <div className="min-h-screen bg-background text-foreground grain">
+      <SiteHeader />
+      <Hero />
+      <Marquee />
+
+      <section id="products" className="py-24 md:py-32 px-4 relative">
+        <div className="container mx-auto max-w-7xl">
+          <Reveal className="text-center mb-16 md:mb-20">
+            <p className="eyebrow mb-4">Каталог</p>
+            <h2 className="text-5xl md:text-7xl font-semibold text-gold">Наши продукты</h2>
+            <div className="gold-divider mx-auto mt-8" />
+          </Reveal>
+
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
+            {products.map((product, idx) => (
+              <Reveal key={product.id} delay={(idx % 2) * 120}>
+                <Card
+                  className="product-card group h-full p-5 md:p-6 rounded-[2rem] bg-secondary/60 border-border cursor-pointer flex flex-col"
+                  onClick={() => handleProductClick(product)}
+                >
+                  <div className="relative overflow-hidden rounded-[1.5rem] mb-6">
+                    <img
+                      src={product.image}
+                      alt={product.title}
+                      loading="lazy"
+                      className="w-full h-72 object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent opacity-80" />
+                    {product.promo?.enabled && (
+                      <span className="absolute top-4 left-4 promo-badge">Акция</span>
+                    )}
+                    <span className="absolute bottom-4 right-4 w-11 h-11 rounded-full bg-primary text-primary-foreground flex items-center justify-center translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                      <Icon name="ArrowUpRight" size={20} />
+                    </span>
+                  </div>
+
+                  <div className="px-2 flex-1">
+                    <h3 className="text-3xl md:text-4xl font-semibold mb-3 text-primary">{product.title}</h3>
+                    <p className="text-sm md:text-base text-muted-foreground mb-6 leading-relaxed">{product.description}</p>
+                  </div>
+
+                  {product.promo?.enabled ? (
+                    <div className="p-5 rounded-2xl border border-primary/50 bg-primary/5">
+                      <div className="space-y-2 text-foreground">
+                        {product.promo.prices.map((priceItem, i) => (
+                          <p key={i} className="flex flex-wrap items-baseline gap-x-3">
+                            <span className="text-muted-foreground">{priceItem.condition}</span>
+                            <span className="font-display text-2xl font-semibold text-gold">
+                              {Number(priceItem.price).toLocaleString('ru-RU')}₽
+                            </span>
+                            <span className="line-through text-muted-foreground/70 text-sm">
+                              {Number(priceItem.oldPrice).toLocaleString('ru-RU')}₽
+                            </span>
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between gap-4 p-5 rounded-2xl bg-background/50 border border-border">
+                      <div className="font-display text-2xl md:text-3xl font-semibold text-gold whitespace-pre-line">
+                        {isNaN(Number(product.price)) || !product.price
+                          ? product.price
+                          : `${Number(product.price).toLocaleString('ru-RU')}₽/кг`}
+                      </div>
+                      <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground shrink-0">Подробнее</span>
+                    </div>
+                  )}
+                </Card>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
       <NewsSection news={news} />
 
-      <section className="py-20 px-4 bg-card">
-        <div className="container mx-auto max-w-7xl">
-          <h2 className="text-5xl md:text-6xl font-bold text-center mb-16 text-primary">
-            Наши продукты
-          </h2>
+      <section id="contact" className="py-24 md:py-32 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 contact-glow pointer-events-none" aria-hidden />
+        <Reveal className="container mx-auto max-w-2xl relative">
+          <div className="glass-card rounded-[2rem] p-8 md:p-12">
+            <p className="eyebrow text-center mb-4">Связаться</p>
+            <h2 className="text-4xl md:text-6xl font-semibold text-center mb-4 text-gold">Оставьте заявку</h2>
+            <p className="text-center text-lg text-muted-foreground mb-10">Мы свяжемся с вами в ближайшее время</p>
 
-          <div className="grid md:grid-cols-2 gap-12">
-            {products.map((product) => (
-              <Card
-                key={product.id}
-                className="p-8 rounded-3xl bg-secondary border-border hover:border-primary transition-all duration-300 cursor-pointer"
-                onClick={() => handleProductClick(product)}
-              >
-                <div className="mb-6">
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="w-full h-64 object-cover rounded-2xl mb-6"
-                  />
-                  <h3 className="text-3xl font-bold mb-4 text-primary">
-                    {product.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground mb-4">{product.description}</p>
-                </div>
-
-                {product.promo?.enabled ? (
-                  <div className="bg-accent/10 p-6 rounded-2xl border-2 border-accent">
-                    <p className="text-2xl font-bold text-accent mb-4">🎉 АКЦИЯ!</p>
-                    <div className="space-y-2 text-foreground">
-                      {product.promo.prices.map((priceItem, idx) => (
-                        <p key={idx}>
-                          • {priceItem.condition}:{' '}
-                          <span className="font-bold text-accent">{Number(priceItem.price).toLocaleString('ru-RU')}₽</span>{' '}
-                          <span className="line-through text-muted-foreground">
-                            {Number(priceItem.oldPrice).toLocaleString('ru-RU')}₽
-                          </span>
-                        </p>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="bg-muted p-6 rounded-2xl">
-                    <div className="text-2xl font-bold text-primary whitespace-pre-line">
-                      {isNaN(Number(product.price)) || !product.price
-                        ? product.price
-                        : `${Number(product.price).toLocaleString('ru-RU')}₽/кг`}
-                    </div>
-                  </div>
-                )}
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="contact" className="py-20 px-4 bg-background">
-        <div className="container mx-auto max-w-2xl">
-          <h2 className="text-5xl md:text-6xl font-bold text-center mb-4 text-primary">
-            Оставьте заявку
-          </h2>
-          <p className="text-center text-xl text-muted-foreground mb-12">
-            Мы свяжемся с вами в ближайшее время
-          </p>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
+            <form onSubmit={handleSubmit} className="space-y-5">
               <Input
                 type="text"
                 placeholder="Ваше имя"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full h-14 text-lg bg-card"
+                className="w-full h-14 text-lg bg-background/60 rounded-2xl px-5 focus-visible:ring-primary"
                 required
               />
-            </div>
-
-            <div>
               <Input
                 type="tel"
                 placeholder="Телефон"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full h-14 text-lg bg-card"
+                className="w-full h-14 text-lg bg-background/60 rounded-2xl px-5 focus-visible:ring-primary"
                 required
               />
-            </div>
 
-            <div className="flex items-center gap-3">
-              <Checkbox
-                id="privacy"
-                checked={agreed}
-                onCheckedChange={(checked) => setAgreed(checked as boolean)}
-              />
-              <label htmlFor="privacy" className="text-sm text-muted-foreground cursor-pointer">
-                Я согласен с{' '}
-                <Link to="/privacy" className="text-primary hover:underline">
-                  условиями обработки персональных данных
-                </Link>
-              </label>
-            </div>
+              <div className="flex items-center gap-3">
+                <Checkbox id="privacy" checked={agreed} onCheckedChange={(checked) => setAgreed(checked as boolean)} />
+                <label htmlFor="privacy" className="text-sm text-muted-foreground cursor-pointer">
+                  Я согласен с{' '}
+                  <Link to="/privacy" className="text-primary hover:underline">
+                    условиями обработки персональных данных
+                  </Link>
+                </label>
+              </div>
 
-            <Button
-              type="submit"
-              className="w-full h-14 text-lg font-semibold"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Отправка...' : 'Отправить заявку'}
-            </Button>
-          </form>
-        </div>
+              <Button type="submit" className="btn-gold-solid w-full h-14 text-lg font-semibold rounded-2xl" disabled={isSubmitting}>
+                {isSubmitting ? 'Отправка...' : 'Отправить заявку'}
+              </Button>
+            </form>
+          </div>
+        </Reveal>
       </section>
+
+      <SiteFooter />
 
       <ProductModal
         isOpen={isModalOpen}
