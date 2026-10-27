@@ -16,8 +16,8 @@ type StrKey = { [K in keyof SiteContent]: SiteContent[K] extends string ? K : ne
 
 const Section = ({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) => (
   <Card className="p-5 md:p-6">
-    <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
-    {hint && <p className="text-sm text-slate-500 mt-1">{hint}</p>}
+    <h3 className="text-xl font-semibold text-primary">{title}</h3>
+    {hint && <p className="text-sm text-slate-300 mt-1">{hint}</p>}
     <div className="mt-5 space-y-4">{children}</div>
   </Card>
 );
@@ -43,7 +43,7 @@ const ContentEditor = ({ notify }: ContentEditorProps) => {
 
   if (!content) {
     return (
-      <Card className="p-12 text-center text-slate-500">
+      <Card className="p-12 text-center text-slate-300">
         <Icon name="Loader2" size={28} className="mx-auto mb-3 animate-spin" />
         Загружаю тексты…
       </Card>
@@ -61,7 +61,7 @@ const ContentEditor = ({ notify }: ContentEditorProps) => {
       ) : (
         <Input id={key} value={content[key]} onChange={(e) => set(key, e.target.value)} className="mt-1.5" />
       )}
-      {opts.hint && <p className="text-xs text-slate-500 mt-1">{opts.hint}</p>}
+      {opts.hint && <p className="text-xs text-slate-400 mt-1">{opts.hint}</p>}
     </div>
   );
 
@@ -80,9 +80,9 @@ const ContentEditor = ({ notify }: ContentEditorProps) => {
     return (
       <div className="space-y-3">
         {list.map((item, i) => (
-          <div key={i} className="rounded-lg border bg-slate-50 p-4 space-y-3">
+          <div key={i} className="rounded-lg border border-white/10 bg-white/5 p-4 space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-slate-700">
+              <span className="text-sm font-medium text-slate-100">
                 {label} {i + 1}
               </span>
               <div className="flex gap-1">
