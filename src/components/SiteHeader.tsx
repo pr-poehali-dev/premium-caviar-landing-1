@@ -25,15 +25,15 @@ const SiteHeader = () => {
     <header
       className={cn(
         'fixed top-0 inset-x-0 z-50 transition-all duration-500',
-        scrolled || open ? 'glass-header py-3' : 'py-5 bg-transparent'
+        scrolled || open ? 'glass-header py-3' : 'py-3 md:py-5 bg-transparent'
       )}
     >
-      <div className="container mx-auto max-w-7xl flex items-center justify-between gap-6">
+      <div className="container mx-auto max-w-7xl px-4 flex items-center justify-between gap-6">
         <Link to="/" className="flex items-center gap-3 group" onClick={() => setOpen(false)}>
           <img
             src="/img/logo.webp"
             alt="ЭкоФиш+"
-            className={cn('w-auto transition-all duration-500 group-hover:scale-105', scrolled ? 'h-10' : 'h-12')}
+            className={cn('w-auto transition-all duration-500 group-hover:scale-105', scrolled ? 'h-9 md:h-10' : 'h-10 md:h-12')}
           />
         </Link>
 
@@ -60,7 +60,7 @@ const SiteHeader = () => {
       </div>
 
       {open && (
-        <nav className="md:hidden container mx-auto flex flex-col gap-4 pt-6 pb-4 animate-fade-in">
+        <nav className="md:hidden container mx-auto px-4 flex flex-col gap-4 pt-6 pb-4 animate-fade-in max-h-[calc(100svh-4rem)] overflow-y-auto">
           {links.map((l) => (
             <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-lg text-foreground/90 hover:text-primary">
               {l.label}

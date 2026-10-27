@@ -8,17 +8,17 @@ const steps = [
 ];
 
 const Steps = () => (
-  <section className="py-24 md:py-32 px-4 relative">
+  <section className="py-16 md:py-32 px-4 relative">
     <div className="container mx-auto max-w-6xl">
-      <Reveal className="text-center mb-16 md:mb-20">
+      <Reveal className="text-center mb-10 md:mb-20">
         <p className="eyebrow mb-4">Как заказать</p>
-        <h2 className="text-5xl md:text-7xl font-semibold">
+        <h2 className="text-4xl sm:text-5xl md:text-7xl font-semibold">
           Три шага <span className="text-gold italic">до вкуса</span>
         </h2>
         <div className="gold-divider mx-auto mt-8" />
       </Reveal>
 
-      <div className="relative grid md:grid-cols-3 gap-10 md:gap-8">
+      <div className="relative grid md:grid-cols-3 gap-12 md:gap-8">
         <div className="steps-line hidden md:block" aria-hidden />
         {steps.map((s, i) => (
           <Reveal key={s.title} delay={i * 180} className="relative text-center">

@@ -42,16 +42,16 @@ const CountUp = ({ to, plain, suffix = '' }: { to: number; plain?: boolean; suff
 };
 
 const Stats = () => (
-  <section className="relative py-20 md:py-28 px-4 overflow-hidden">
+  <section className="relative py-12 md:py-28 px-4 overflow-hidden">
     <div className="container mx-auto max-w-7xl">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px rounded-[2rem] overflow-hidden border border-primary/15 bg-primary/15">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-px rounded-[1.5rem] md:rounded-[2rem] overflow-hidden border border-primary/15 bg-primary/15">
         {stats.map((s, i) => (
           <div key={s.label} className="bg-background">
-            <Reveal delay={i * 120} className="stat-cell h-full p-6 md:p-10 text-center">
-              <div className="font-display text-5xl md:text-7xl font-semibold text-gold leading-none mb-4">
+            <Reveal delay={i * 120} className="stat-cell h-full px-3 py-6 md:p-10 text-center">
+              <div className="font-display text-4xl sm:text-5xl md:text-7xl font-semibold text-gold leading-none mb-3 md:mb-4">
                 <CountUp to={s.value} plain={s.plain} suffix={s.suffix} />
               </div>
-              <p className="text-xs md:text-sm uppercase tracking-[0.2em] text-muted-foreground leading-relaxed">{s.label}</p>
+              <p className="text-[10px] sm:text-xs md:text-sm uppercase tracking-[0.12em] md:tracking-[0.2em] text-muted-foreground leading-relaxed">{s.label}</p>
             </Reveal>
           </div>
         ))}

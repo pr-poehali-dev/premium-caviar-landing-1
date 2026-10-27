@@ -105,28 +105,28 @@ const Index = () => {
       <Marquee />
       <Stats />
 
-      <section id="products" className="py-24 md:py-32 px-4 relative">
+      <section id="products" className="py-16 md:py-32 px-4 relative">
         <div className="container mx-auto max-w-7xl">
-          <Reveal className="text-center mb-16 md:mb-20">
+          <Reveal className="text-center mb-10 md:mb-20">
             <p className="eyebrow mb-4">Каталог</p>
-            <h2 className="text-5xl md:text-7xl font-semibold text-gold">Наши продукты</h2>
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-semibold text-gold">Наши продукты</h2>
             <div className="gold-divider mx-auto mt-8" />
           </Reveal>
 
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
+          <div className="grid md:grid-cols-2 gap-6 lg:gap-10">
             {products.map((product, idx) => (
               <Reveal key={product.id} delay={(idx % 2) * 120}>
                 <TiltCard
-                  className="group h-full p-5 md:p-6 rounded-[2rem] border border-border bg-secondary/60 cursor-pointer flex flex-col"
+                  className="group h-full p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-border bg-secondary/60 cursor-pointer flex flex-col"
                   onClick={() => handleProductClick(product)}
                   max={5}
                 >
-                  <div className="relative overflow-hidden rounded-[1.5rem] mb-6">
+                  <div className="relative overflow-hidden rounded-[1.1rem] md:rounded-[1.5rem] mb-5 md:mb-6">
                     <img
                       src={product.image}
                       alt={product.title}
                       loading="lazy"
-                      className="w-full h-72 object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
+                      className="w-full h-56 sm:h-72 object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent opacity-80" />
                     {product.promo?.enabled && (
@@ -137,21 +137,21 @@ const Index = () => {
                     </span>
                   </div>
 
-                  <div className="px-2 flex-1">
-                    <h3 className="text-3xl md:text-4xl font-semibold mb-3 text-primary">{product.title}</h3>
+                  <div className="px-1 md:px-2 flex-1">
+                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold mb-2 md:mb-3 text-primary">{product.title}</h3>
                     <p className="text-sm md:text-base text-muted-foreground mb-6 leading-relaxed">{product.description}</p>
                   </div>
 
                   {product.promo?.enabled ? (
-                    <div className="p-5 rounded-2xl border border-primary/50 bg-primary/5">
+                    <div className="p-4 md:p-5 rounded-2xl border border-primary/50 bg-primary/5">
                       <div className="space-y-2 text-foreground">
                         {product.promo.prices.map((priceItem, i) => (
-                          <p key={i} className="flex flex-wrap items-baseline gap-x-3">
-                            <span className="text-muted-foreground">{priceItem.condition}</span>
-                            <span className="font-display text-2xl font-semibold text-gold">
+                          <p key={i} className="grid grid-cols-[1fr_auto_auto] items-baseline gap-x-2 sm:gap-x-3 text-sm sm:text-base">
+                            <span className="text-muted-foreground leading-snug">{priceItem.condition}</span>
+                            <span className="font-display text-xl sm:text-2xl font-semibold text-gold">
                               {Number(priceItem.price).toLocaleString('ru-RU')}₽
                             </span>
-                            <span className="line-through text-muted-foreground/70 text-sm">
+                            <span className="line-through text-muted-foreground/70 text-xs sm:text-sm">
                               {Number(priceItem.oldPrice).toLocaleString('ru-RU')}₽
                             </span>
                           </p>
@@ -159,8 +159,8 @@ const Index = () => {
                       </div>
                     </div>
                   ) : (
-                    <div className="flex items-center justify-between gap-4 p-5 rounded-2xl bg-background/50 border border-border">
-                      <div className="font-display text-2xl md:text-3xl font-semibold text-gold whitespace-pre-line">
+                    <div className="flex items-center justify-between gap-3 p-4 md:p-5 rounded-2xl bg-background/50 border border-border">
+                      <div className="font-display text-xl sm:text-2xl md:text-3xl font-semibold text-gold whitespace-pre-line">
                         {isNaN(Number(product.price)) || !product.price
                           ? product.price
                           : `${Number(product.price).toLocaleString('ru-RU')}₽/кг`}
@@ -180,15 +180,15 @@ const Index = () => {
       <NewsSection news={news} />
       <Steps />
 
-      <section id="contact" className="py-24 md:py-32 px-4 relative overflow-hidden">
+      <section id="contact" className="py-16 md:py-32 px-4 relative overflow-hidden">
         <div className="absolute inset-0 contact-glow pointer-events-none" aria-hidden />
         <div className="container mx-auto max-w-6xl relative grid lg:grid-cols-5 gap-10 lg:gap-16 items-center">
           <Reveal className="lg:col-span-2">
             <p className="eyebrow mb-4">Связаться</p>
-            <h2 className="text-5xl md:text-6xl font-semibold mb-6 leading-[1.05]">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-4 md:mb-6 leading-[1.05]">
               Оставьте <span className="text-gold italic">заявку</span>
             </h2>
-            <p className="text-lg text-muted-foreground mb-10">Перезвоним в ближайшее время, подскажем по наличию и оформим доставку.</p>
+            <p className="text-base md:text-lg text-muted-foreground mb-8 md:mb-10">Перезвоним в ближайшее время, подскажем по наличию и оформим доставку.</p>
             <div className="space-y-4">
               {[
                 { name: 'Валерий', tel: '89275731273', label: '8 927 573 12 73' },
@@ -200,7 +200,7 @@ const Index = () => {
                   </span>
                   <span>
                     <span className="block text-xs uppercase tracking-[0.2em] text-muted-foreground">{c.name}</span>
-                    <span className="block font-display text-2xl text-foreground group-hover:text-primary transition-colors">{c.label}</span>
+                    <span className="block font-display text-xl sm:text-2xl text-foreground group-hover:text-primary transition-colors">{c.label}</span>
                   </span>
                 </a>
               ))}
@@ -208,8 +208,8 @@ const Index = () => {
           </Reveal>
 
           <Reveal delay={150} className="lg:col-span-3">
-            <div className="glass-card gold-border rounded-[2rem] p-8 md:p-12">
-              <h3 className="text-3xl md:text-4xl font-semibold mb-2">Заказать звонок</h3>
+            <div className="glass-card gold-border rounded-[1.5rem] md:rounded-[2rem] p-5 sm:p-8 md:p-12">
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold mb-2">Заказать звонок</h3>
               <p className="text-muted-foreground mb-8">Займёт меньше минуты</p>
             <form onSubmit={handleSubmit} className="space-y-5">
               <Input
@@ -229,8 +229,8 @@ const Index = () => {
                 required
               />
 
-              <div className="flex items-center gap-3">
-                <Checkbox id="privacy" checked={agreed} onCheckedChange={(checked) => setAgreed(checked as boolean)} />
+              <div className="flex items-start gap-3">
+                <Checkbox className="mt-0.5" id="privacy" checked={agreed} onCheckedChange={(checked) => setAgreed(checked as boolean)} />
                 <label htmlFor="privacy" className="text-sm text-muted-foreground cursor-pointer">
                   Я согласен с{' '}
                   <Link to="/privacy" className="text-primary hover:underline">

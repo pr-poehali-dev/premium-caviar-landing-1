@@ -8,7 +8,7 @@ const SiteFooter = () => (
         <a href="tel:89275731273" className="hover:text-primary transition-colors">Валерий: 8 927 573 12 73</a>
         <a href="tel:89275607919" className="hover:text-primary transition-colors">Любовь: 8 927 560 79 19</a>
       </div>
-      <div className="flex gap-6 items-center">
+      <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 items-center text-center">
         <Link to="/about" className="hover:text-primary transition-colors">О нас</Link>
         <Link to="/privacy" className="hover:text-primary transition-colors">Конфиденциальность</Link>
         <span>© {new Date().getFullYear()} ООО «ЭкоФиш+»</span>

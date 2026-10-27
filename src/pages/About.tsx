@@ -5,30 +5,30 @@ import { Link } from 'react-router-dom';
 const About = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-secondary to-muted">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-8 md:py-12">
         <div className="max-w-5xl mx-auto">
           <Link to="/" className="inline-flex items-center gap-2 mb-8 text-primary hover:text-accent transition-colors">
             <Icon name="ArrowLeft" size={20} />
             <span>Вернуться на главную</span>
           </Link>
 
-          <div className="flex flex-col items-center text-center gap-4 mb-12 animate-fade-in">
-            <img src="/img/logo.webp" alt="ЭкоФиш+" className="h-32 md:h-40 w-auto logo-float" />
-            <p className="eyebrow">Рыбное хозяйство · с 2013 года</p>
-            <h1 className="text-5xl md:text-6xl font-semibold text-gold">О нас</h1>
+          <div className="flex flex-col items-center text-center gap-4 mb-8 md:mb-12 animate-fade-in">
+            <img src="/img/logo.webp" alt="ЭкоФиш+" className="h-24 sm:h-32 md:h-40 w-auto logo-float" />
+            <p className="eyebrow">Рыбное хозяйство<span className="hidden sm:inline"> · </span><br className="sm:hidden" />с 2013 года</p>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold text-gold">О нас</h1>
           </div>
 
-          <Card className="glass-card p-6 md:p-10 rounded-[2rem] mb-8 animate-fade-in">
+          <Card className="glass-card p-4 sm:p-6 md:p-10 rounded-[1.5rem] md:rounded-[2rem] mb-8 animate-fade-in">
                         
-            <div className="mb-8">
+            <div className="mb-6 md:mb-8">
               <img 
                 src="/img/about.jpg" 
                 alt="Рыбное хозяйство ЭкоФиш+"
-                className="w-full h-[28rem] object-cover rounded-[1.5rem]"
+                className="w-full h-[22rem] sm:h-[28rem] object-cover object-top rounded-[1.1rem] md:rounded-[1.5rem]"
               />
             </div>
 
-            <div className="space-y-6 text-foreground/90 leading-relaxed text-lg">
+            <div className="space-y-6 text-foreground/90 leading-relaxed text-base md:text-lg">
               <p>
                 ООО «ЭкоФиш+» основано в 2013 году специально для выращивания осетровых видов рыб и черной икры в реке Ахтуба в Харабалинском районе Астраханской области. Почти год ушел на оформление разрешительной документации, водопользования. В апреле 2014 года на воду были спущены первые садки, закуплена молодь стерляди и осетра. Основой нового хозяйства послужила созданная раньше, в 2005 году, рыболовно-туристическая база «Сазаний угол», расположенная на левом берегу реки Ахтуба в 20 км от города Харабали.
               </p>

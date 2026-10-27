@@ -107,6 +107,22 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 72px;
+  -webkit-text-size-adjust: 100%;
+}
+
+html, body {
+  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+body {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  max-width: 100%;
 }
 
 ::selection {
@@ -530,6 +546,42 @@ html {
 @keyframes scrollDot { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(14px); opacity: 0; } 100% { opacity: 0; } }
 @keyframes marquee { to { transform: translateX(-50%); } }
 @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 0 0 hsl(45 80% 55% / 0.5); } 50% { box-shadow: 0 0 0 8px hsl(45 80% 55% / 0); } }
+
+@layer components {
+  .hero-section { min-height: 100vh; min-height: 100svh; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .tilt-card, .tilt-card:hover { transform: none !important; }
+  .tilt-card:hover, .product-card:hover, .feature-card:hover, .contact-pill:hover, .step-badge:hover { transform: none; }
+  .tilt-spot { display: none; }
+  .group:hover .group-hover\:scale-110 { transform: none; }
+  .btn-gold:hover, .btn-gold-solid:hover, .btn-ghost-gold:hover { transform: none; }
+  .tilt-card:active, .feature-card:active { transform: scale(0.985) !important; transition-duration: 0.15s; }
+}
+
+@media (max-width: 767px) {
+  .grain::before { display: none; }
+  .hero-bg { animation: none; transform: scale(1.05); }
+  .hero-ring-1 { width: 420px; height: 420px; }
+  .hero-ring-2 { display: none; }
+  .hero-spot { display: none; }
+  .logo-glow { filter: blur(28px); }
+  .logo-float { animation-duration: 8s; }
+  .glass-header {
+    background: hsl(var(--background) / 0.94);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .glass-card { backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .btn-ghost-gold { backdrop-filter: none; }
+  .reveal { transform: translateY(24px); transition-duration: 0.8s; }
+  .reveal[style] { transition-delay: 0ms !important; }
+  .marquee-track { animation-duration: 28s; }
+  .story-frame::before { inset: 10px; border-radius: 1.5rem; }
+  .gold-particle:nth-child(n + 13) { display: none; }
+  .eyebrow { letter-spacing: 0.25em; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }

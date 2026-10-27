@@ -14,7 +14,7 @@ const Hero = () => {
 
   useEffect(() => {
     const el = logoRef.current;
-    if (!el || window.matchMedia('(pointer: coarse)').matches) return;
+    if (!el || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     const onMove = (e: MouseEvent) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 2;
       const y = (e.clientY / window.innerHeight - 0.5) * 2;
@@ -27,7 +27,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 pt-28 pb-20 overflow-hidden">
+    <section className="hero-section relative flex items-center justify-center px-4 pt-24 md:pt-28 pb-20 overflow-hidden">
       <div className="absolute inset-0 z-0 overflow-hidden">
         <div className="absolute inset-0 hero-bg" style={{ backgroundImage: "url('/img/hero.jpg')" }} />
         <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/60 to-background" />
@@ -54,7 +54,7 @@ const Hero = () => {
       </div>
 
       <div className="container mx-auto max-w-6xl relative z-10 text-center">
-        <div className="logo-stage mx-auto mb-10 w-full max-w-[46rem]">
+        <div className="logo-stage mx-auto mb-8 md:mb-10 w-full max-w-[22rem] sm:max-w-[34rem] md:max-w-[46rem]">
           <div className="logo-glow" aria-hidden />
           <div ref={logoRef} className="logo-tilt">
             <div className="logo-float">
@@ -66,10 +66,10 @@ const Hero = () => {
           </div>
         </div>
 
-        <p className="hero-line text-xs md:text-sm uppercase tracking-[0.45em] text-primary/90 mb-6" style={{ animationDelay: '0.9s' }}>
-          Ахтуба · Астраханская область · с 2013 года
+        <p className="hero-line text-[11px] md:text-sm uppercase tracking-[0.25em] md:tracking-[0.45em] text-primary/90 mb-5 md:mb-6" style={{ animationDelay: '0.9s' }}>
+          Ахтуба · Астраханская область<span className="hidden sm:inline"> · </span><br className="sm:hidden" />с 2013 года
         </p>
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-semibold mb-6 leading-[1.1]">
+        <h1 className="text-[2.4rem] sm:text-5xl md:text-6xl lg:text-7xl font-semibold mb-6 leading-[1.1]">
           {['Премиальная', 'икра', 'и', 'рыба'].map((w, i) => (
             <span key={w + i} className="word-mask">
               <span className="word" style={{ animationDelay: `${1 + i * 0.08}s` }}>{w}</span>
@@ -82,21 +82,21 @@ const Hero = () => {
             </span>
           ))}
         </h1>
-        <p className="hero-line text-lg md:text-xl mb-12 text-muted-foreground max-w-2xl mx-auto" style={{ animationDelay: '1.6s' }}>
+        <p className="hero-line text-base md:text-xl mb-10 md:mb-12 text-muted-foreground max-w-2xl mx-auto" style={{ animationDelay: '1.6s' }}>
           Осётр и стерлядь из чистой проточной воды. Бережная доставка до вашего стола — для праздника, ужина или особого подарка.
         </p>
 
-        <div className="hero-line flex flex-col sm:flex-row gap-4 justify-center items-center" style={{ animationDelay: '1.75s' }}>
-          <a href="#products" className="btn-gold magnetic text-base px-8 py-4">
+        <div className="hero-line flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center max-w-xs sm:max-w-none mx-auto" style={{ animationDelay: '1.75s' }}>
+          <a href="#products" className="btn-gold magnetic justify-center text-base px-8 py-4">
             Смотреть продукцию
             <Icon name="ArrowRight" size={18} />
           </a>
-          <a href="#contact" className="btn-ghost-gold text-base px-8 py-4">
+          <a href="#contact" className="btn-ghost-gold justify-center text-base px-8 py-4">
             Оставить заявку
           </a>
         </div>
 
-        <div className="hero-line mt-12 flex flex-col sm:flex-row gap-6 justify-center items-center text-base" style={{ animationDelay: '1.9s' }}>
+        <div className="hero-line mt-10 md:mt-12 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center text-base" style={{ animationDelay: '1.9s' }}>
           <a href="tel:89275731273" className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
             <Icon name="Phone" size={18} className="text-primary" />
             Валерий: 8 927 573 12 73
@@ -109,7 +109,7 @@ const Hero = () => {
         </div>
       </div>
 
-      <a href="#products" className="scroll-cue absolute bottom-8 left-1/2 -translate-x-1/2 z-10" aria-label="Прокрутить вниз">
+      <a href="#products" className="scroll-cue hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-10" aria-label="Прокрутить вниз">
         <span />
       </a>
     </section>

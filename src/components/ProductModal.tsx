@@ -16,16 +16,16 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl max-h-[90vh]">
+      <DialogContent className="w-[calc(100%-1.5rem)] max-w-3xl max-h-[88svh] rounded-2xl p-5 sm:p-6">
         <DialogHeader>
-          <DialogTitle className="text-3xl font-bold text-primary">{product.title}</DialogTitle>
+          <DialogTitle className="text-2xl sm:text-3xl font-bold text-primary pr-6 text-left">{product.title}</DialogTitle>
         </DialogHeader>
-        <ScrollArea className="max-h-[70vh] pr-4">
+        <ScrollArea className="max-h-[70svh] pr-2 sm:pr-4">
           <div className="space-y-6">
             <img 
               src={product.image} 
               alt={product.title}
-              className="w-full h-80 object-cover rounded-2xl"
+              className="w-full h-56 sm:h-80 object-cover rounded-2xl"
             />
             <div className="text-foreground whitespace-pre-line leading-relaxed">
               {product.description}
