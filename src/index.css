@@ -345,7 +345,168 @@ html {
     opacity: 1;
     transform: none;
   }
+
+  .scroll-progress {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    z-index: 70;
+    transform-origin: left;
+    transform: scaleX(0);
+    background: linear-gradient(90deg, #b8892c, #fff1c1, #d4a943);
+    box-shadow: 0 0 12px hsl(var(--primary) / 0.8);
+  }
+
+  .hero-spot {
+    background: radial-gradient(600px circle at var(--sx, 50%) var(--sy, 40%), hsl(var(--primary) / 0.12), transparent 60%);
+    transition: background 0.2s;
+  }
+  .hero-ring {
+    position: absolute;
+    left: 50%; top: 42%;
+    border-radius: 9999px;
+    border: 1px solid hsl(var(--primary) / 0.12);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .hero-ring-1 { width: 760px; height: 760px; animation: spinSlow 60s linear infinite; border-style: dashed; }
+  .hero-ring-2 { width: 1100px; height: 1100px; border-color: hsl(var(--primary) / 0.07); animation: spinSlow 90s linear infinite reverse; }
+
+  .word-mask { display: inline-block; overflow: hidden; vertical-align: bottom; padding: 0 0.12em 0.08em; margin: 0 -0.02em; }
+  .word { display: inline-block; transform: translateY(110%); animation: wordUp 1s cubic-bezier(.2,.8,.2,1) forwards; }
+
+  .tilt-card {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(.2,.8,.2,1), border-color 0.5s, box-shadow 0.6s;
+    will-change: transform;
+  }
+  .tilt-card:hover {
+    border-color: hsl(var(--primary) / 0.55);
+    box-shadow: 0 40px 80px -40px hsl(var(--primary) / 0.4), 0 20px 40px -20px rgba(0,0,0,0.6);
+  }
+  .tilt-spot {
+    position: absolute; inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 0.4s;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), hsl(45 90% 75% / 0.12), transparent 50%);
+  }
+  .tilt-card:hover .tilt-spot { opacity: 1; }
+
+  .stat-cell {
+    position: relative;
+    transition: background 0.5s;
+  }
+  .stat-cell:hover { background: hsl(var(--secondary) / 0.6); }
+
+  .feature-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.6s cubic-bezier(.2,.8,.2,1), border-color 0.5s, background 0.5s;
+  }
+  .feature-card::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary)), transparent);
+    transform: scaleX(0);
+    transition: transform 0.6s ease;
+  }
+  .feature-card:hover { transform: translateY(-8px); border-color: hsl(var(--primary) / 0.4); background: hsl(var(--secondary) / 0.7); }
+  .feature-card:hover::after { transform: scaleX(1); }
+  .feature-icon {
+    width: 60px; height: 60px;
+    border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    color: hsl(var(--primary));
+    background: linear-gradient(145deg, hsl(var(--primary) / 0.18), hsl(var(--primary) / 0.04));
+    border: 1px solid hsl(var(--primary) / 0.35);
+    transition: transform 0.6s cubic-bezier(.2,.8,.2,1), background 0.4s, color 0.4s;
+  }
+  .feature-card:hover .feature-icon {
+    transform: rotate(-8deg) scale(1.08);
+    background: linear-gradient(135deg, #f3d98b, #c8962f);
+    color: hsl(var(--primary-foreground));
+  }
+
+  .story-frame {
+    border: 1px solid hsl(var(--primary) / 0.2);
+    box-shadow: 0 50px 100px -50px rgba(0,0,0,0.8);
+  }
+  .story-frame::before {
+    content: "";
+    position: absolute; inset: 14px;
+    border: 1px solid hsl(var(--primary) / 0.3);
+    border-radius: 2rem;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .steps-line {
+    position: absolute;
+    top: 44px; left: 16%; right: 16%;
+    height: 1px;
+    background: repeating-linear-gradient(90deg, hsl(var(--primary) / 0.5) 0 8px, transparent 8px 16px);
+  }
+  .step-badge {
+    position: relative;
+    width: 88px; height: 88px;
+    border-radius: 9999px;
+    display: flex; align-items: center; justify-content: center;
+    color: hsl(var(--primary));
+    background: hsl(var(--background));
+    border: 1px solid hsl(var(--primary) / 0.45);
+    box-shadow: 0 0 0 8px hsl(var(--background)), 0 0 40px -5px hsl(var(--primary) / 0.35);
+    transition: transform 0.5s cubic-bezier(.2,.8,.2,1);
+  }
+  .step-badge:hover { transform: scale(1.08) rotate(6deg); }
+  .step-num {
+    position: absolute; top: -4px; right: -4px;
+    width: 28px; height: 28px;
+    border-radius: 9999px;
+    font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #f3d98b, #c8962f);
+    color: hsl(var(--primary-foreground));
+  }
+
+  .contact-pill {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: 1.25rem;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--secondary) / 0.4);
+    transition: border-color 0.4s, transform 0.4s, background 0.4s;
+  }
+  .contact-pill:hover { border-color: hsl(var(--primary) / 0.5); transform: translateX(6px); background: hsl(var(--secondary) / 0.7); }
+
+  .gold-border { position: relative; }
+  .gold-border::before {
+    content: "";
+    position: absolute; inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(from var(--angle, 0deg), transparent 0 60%, hsl(var(--primary)) 75%, #fff1c1 80%, hsl(var(--primary)) 85%, transparent 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: borderSpin 6s linear infinite;
+    pointer-events: none;
+  }
 }
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes borderSpin { to { --angle: 360deg; } }
+@keyframes spinSlow { to { transform: translate(-50%, -50%) rotate(360deg); } }
+@keyframes wordUp { to { transform: translateY(0); } }
 
 @keyframes goldShift { to { background-position: 220% center; } }
 @keyframes kenBurns { from { transform: scale(1.05); } to { transform: scale(1.18) translate(-1.5%, -1%); } }
@@ -372,7 +533,7 @@ html {
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-  .reveal, .hero-line { opacity: 1; transform: none; }
+  .reveal, .hero-line, .word { opacity: 1; transform: none; }
 }
 
 @layer utilities {

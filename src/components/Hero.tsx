@@ -10,6 +10,7 @@ const particles = Array.from({ length: 28 }, (_, i) => ({
 
 const Hero = () => {
   const logoRef = useRef<HTMLDivElement>(null);
+  const spotRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = logoRef.current;
@@ -18,6 +19,8 @@ const Hero = () => {
       const x = (e.clientX / window.innerWidth - 0.5) * 2;
       const y = (e.clientY / window.innerHeight - 0.5) * 2;
       el.style.transform = `perspective(1200px) rotateY(${x * 6}deg) rotateX(${-y * 5}deg)`;
+      spotRef.current?.style.setProperty('--sx', `${e.clientX}px`);
+      spotRef.current?.style.setProperty('--sy', `${e.clientY}px`);
     };
     window.addEventListener('mousemove', onMove);
     return () => window.removeEventListener('mousemove', onMove);
@@ -29,6 +32,9 @@ const Hero = () => {
         <div className="absolute inset-0 hero-bg" style={{ backgroundImage: "url('/img/hero.jpg')" }} />
         <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/60 to-background" />
         <div className="absolute inset-0 hero-vignette" />
+        <div ref={spotRef} className="absolute inset-0 hero-spot" />
+        <div className="hero-ring hero-ring-1" />
+        <div className="hero-ring hero-ring-2" />
       </div>
 
       <div className="absolute inset-0 z-[1] pointer-events-none" aria-hidden>
@@ -63,16 +69,25 @@ const Hero = () => {
         <p className="hero-line text-xs md:text-sm uppercase tracking-[0.45em] text-primary/90 mb-6" style={{ animationDelay: '0.9s' }}>
           Ахтуба · Астраханская область · с 2013 года
         </p>
-        <h1 className="hero-line text-4xl md:text-6xl lg:text-7xl font-semibold mb-6 leading-[1.1]" style={{ animationDelay: '1.05s' }}>
-          Премиальная икра и рыба <br className="hidden md:block" />
-          <span className="text-gold italic">для особых моментов</span>
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-semibold mb-6 leading-[1.1]">
+          {['Премиальная', 'икра', 'и', 'рыба'].map((w, i) => (
+            <span key={w + i} className="word-mask">
+              <span className="word" style={{ animationDelay: `${1 + i * 0.08}s` }}>{w}</span>
+            </span>
+          ))}
+          <br className="hidden md:block" />
+          {['для', 'особых', 'моментов'].map((w, i) => (
+            <span key={w} className="word-mask">
+              <span className="word text-gold italic" style={{ animationDelay: `${1.35 + i * 0.08}s` }}>{w}</span>
+            </span>
+          ))}
         </h1>
-        <p className="hero-line text-lg md:text-xl mb-12 text-muted-foreground max-w-2xl mx-auto" style={{ animationDelay: '1.2s' }}>
+        <p className="hero-line text-lg md:text-xl mb-12 text-muted-foreground max-w-2xl mx-auto" style={{ animationDelay: '1.6s' }}>
           Осётр и стерлядь из чистой проточной воды. Бережная доставка до вашего стола — для праздника, ужина или особого подарка.
         </p>
 
-        <div className="hero-line flex flex-col sm:flex-row gap-4 justify-center items-center" style={{ animationDelay: '1.35s' }}>
-          <a href="#products" className="btn-gold text-base px-8 py-4">
+        <div className="hero-line flex flex-col sm:flex-row gap-4 justify-center items-center" style={{ animationDelay: '1.75s' }}>
+          <a href="#products" className="btn-gold magnetic text-base px-8 py-4">
             Смотреть продукцию
             <Icon name="ArrowRight" size={18} />
           </a>
@@ -81,7 +96,7 @@ const Hero = () => {
           </a>
         </div>
 
-        <div className="hero-line mt-12 flex flex-col sm:flex-row gap-6 justify-center items-center text-base" style={{ animationDelay: '1.5s' }}>
+        <div className="hero-line mt-12 flex flex-col sm:flex-row gap-6 justify-center items-center text-base" style={{ animationDelay: '1.9s' }}>
           <a href="tel:89275731273" className="flex items-center gap-3 text-foreground/80 hover:text-primary transition-colors">
             <Icon name="Phone" size={18} className="text-primary" />
             Валерий: 8 927 573 12 73

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
@@ -15,6 +14,12 @@ import SiteFooter from '@/components/SiteFooter';
 import Hero from '@/components/Hero';
 import Marquee from '@/components/Marquee';
 import Reveal from '@/components/Reveal';
+import TiltCard from '@/components/TiltCard';
+import Stats from '@/components/Stats';
+import Features from '@/components/Features';
+import Story from '@/components/Story';
+import Steps from '@/components/Steps';
+import ScrollProgress from '@/components/ScrollProgress';
 
 const Index = () => {
   const [name, setName] = useState('');
@@ -94,9 +99,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground grain">
+      <ScrollProgress />
       <SiteHeader />
       <Hero />
       <Marquee />
+      <Stats />
 
       <section id="products" className="py-24 md:py-32 px-4 relative">
         <div className="container mx-auto max-w-7xl">
@@ -109,9 +116,10 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
             {products.map((product, idx) => (
               <Reveal key={product.id} delay={(idx % 2) * 120}>
-                <Card
-                  className="product-card group h-full p-5 md:p-6 rounded-[2rem] bg-secondary/60 border-border cursor-pointer flex flex-col"
+                <TiltCard
+                  className="group h-full p-5 md:p-6 rounded-[2rem] border border-border bg-secondary/60 cursor-pointer flex flex-col"
                   onClick={() => handleProductClick(product)}
+                  max={5}
                 >
                   <div className="relative overflow-hidden rounded-[1.5rem] mb-6">
                     <img
@@ -160,23 +168,49 @@ const Index = () => {
                       <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground shrink-0">Подробнее</span>
                     </div>
                   )}
-                </Card>
+                </TiltCard>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
+      <Features />
+      <Story />
       <NewsSection news={news} />
+      <Steps />
 
       <section id="contact" className="py-24 md:py-32 px-4 relative overflow-hidden">
         <div className="absolute inset-0 contact-glow pointer-events-none" aria-hidden />
-        <Reveal className="container mx-auto max-w-2xl relative">
-          <div className="glass-card rounded-[2rem] p-8 md:p-12">
-            <p className="eyebrow text-center mb-4">Связаться</p>
-            <h2 className="text-4xl md:text-6xl font-semibold text-center mb-4 text-gold">Оставьте заявку</h2>
-            <p className="text-center text-lg text-muted-foreground mb-10">Мы свяжемся с вами в ближайшее время</p>
+        <div className="container mx-auto max-w-6xl relative grid lg:grid-cols-5 gap-10 lg:gap-16 items-center">
+          <Reveal className="lg:col-span-2">
+            <p className="eyebrow mb-4">Связаться</p>
+            <h2 className="text-5xl md:text-6xl font-semibold mb-6 leading-[1.05]">
+              Оставьте <span className="text-gold italic">заявку</span>
+            </h2>
+            <p className="text-lg text-muted-foreground mb-10">Перезвоним в ближайшее время, подскажем по наличию и оформим доставку.</p>
+            <div className="space-y-4">
+              {[
+                { name: 'Валерий', tel: '89275731273', label: '8 927 573 12 73' },
+                { name: 'Любовь', tel: '89275607919', label: '8 927 560 79 19' },
+              ].map((c) => (
+                <a key={c.tel} href={`tel:${c.tel}`} className="contact-pill group">
+                  <span className="w-12 h-12 rounded-full bg-primary/10 border border-primary/40 flex items-center justify-center text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                    <Icon name="Phone" size={20} />
+                  </span>
+                  <span>
+                    <span className="block text-xs uppercase tracking-[0.2em] text-muted-foreground">{c.name}</span>
+                    <span className="block font-display text-2xl text-foreground group-hover:text-primary transition-colors">{c.label}</span>
+                  </span>
+                </a>
+              ))}
+            </div>
+          </Reveal>
 
+          <Reveal delay={150} className="lg:col-span-3">
+            <div className="glass-card gold-border rounded-[2rem] p-8 md:p-12">
+              <h3 className="text-3xl md:text-4xl font-semibold mb-2">Заказать звонок</h3>
+              <p className="text-muted-foreground mb-8">Займёт меньше минуты</p>
             <form onSubmit={handleSubmit} className="space-y-5">
               <Input
                 type="text"
@@ -209,8 +243,9 @@ const Index = () => {
                 {isSubmitting ? 'Отправка...' : 'Отправить заявку'}
               </Button>
             </form>
-          </div>
-        </Reveal>
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       <SiteFooter />
